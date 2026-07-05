@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa de Pesquisa: DOUTORADO — Embeddedness (Granovetter, 1985)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0d0e11;
+    --surface: #13151a;
+    --surface2: #1a1d24;
+    --border: #252830;
+    --accent: #c8a96e;
+    --accent2: #7b9e87;
+    --accent3: #8b6fa8;
+    --text: #d4d8e2;
+    --text-muted: #7a7f8e;
+    --text-dim: #4a4f5e;
+    --red: #c0614d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 48px 64px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #eef0f5;
+    margin-bottom: 8px;
+  }
+  .header h1 span { color: var(--accent); font-style: italic; }
+  .header-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 16px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header-sub span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  .dot.green { background: var(--accent2); }
+  .dot.purple { background: var(--accent3); }
+  .dot.red { background: var(--red); }
+
+  .nota-box {
+    background: rgba(200,169,110,0.05);
+    border: 1px solid rgba(200,169,110,0.2);
+    border-left: 3px solid var(--accent);
+    padding: 14px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 20px;
+  }
+  .nota-box strong { color: var(--accent); font-weight: 500; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 64px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .section { display: flex; flex-direction: column; gap: 16px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    min-width: 36px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #eef0f5;
+  }
+  .section-tag {
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .tag-gold { background: rgba(200,169,110,0.12); color: var(--accent); border: 1px solid rgba(200,169,110,0.25); }
+  .tag-green { background: rgba(123,158,135,0.12); color: var(--accent2); border: 1px solid rgba(123,158,135,0.25); }
+  .tag-purple { background: rgba(139,111,168,0.12); color: var(--accent3); border: 1px solid rgba(139,111,168,0.25); }
+  .tag-red { background: rgba(192,97,77,0.12); color: var(--red); border: 1px solid rgba(192,97,77,0.25); }
+
+  .panorama-list { display: flex; flex-direction: column; gap: 0; }
+  .panorama-item {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--surface);
+  }
+  .panorama-item:last-child { border-bottom: 1px solid var(--border); }
+  .panorama-item:hover { background: var(--surface2); }
+  .panorama-tipo {
+    min-width: 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 16px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    border-right: 1px solid var(--border);
+  }
+  .tipo-a { color: var(--accent); }
+  .tipo-b { color: var(--accent2); }
+  .tipo-c { color: var(--accent3); }
+  .panorama-content {
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text-muted);
+    flex: 1;
+  }
+  .panorama-content .ref {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-left: 4px;
+  }
+  .panorama-content .ref.green { color: var(--accent2); }
+  .panorama-content .ref.purple { color: var(--accent3); }
+  .panorama-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .panorama-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-top: -1px;
+  }
+  .leg-item { display: flex; align-items: center; gap: 6px; }
+  .leg-badge {
+    width: 16px; height: 16px;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 500;
+  }
+  .leg-a { background: rgba(200,169,110,0.15); color: var(--accent); }
+  .leg-b { background: rgba(123,158,135,0.15); color: var(--accent2); }
+  .leg-c { background: rgba(139,111,168,0.15); color: var(--accent3); }
+
+  .debates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .debate-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .debate-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+  .debate-card.gold::after { background: var(--accent); }
+  .debate-card.green::after { background: var(--accent2); }
+  .debate-card.purple::after { background: var(--accent3); }
+  .debate-card.red::after { background: var(--red); }
+  .debate-card.teal::after { background: #5b9fad; }
+
+  .debate-icon {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .debate-card.gold .debate-icon { color: var(--accent); }
+  .debate-card.green .debate-icon { color: var(--accent2); }
+  .debate-card.purple .debate-icon { color: var(--accent3); }
+  .debate-card.red .debate-icon { color: var(--red); }
+  .debate-card.teal .debate-icon { color: #5b9fad; }
+
+  .debate-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #eef0f5;
+    margin-bottom: 8px;
+  }
+  .debate-text { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+  .debate-refs {
+    margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .debate-status {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .status-consenso { background: rgba(123,158,135,0.15); color: var(--accent2); }
+  .status-disputado { background: rgba(192,97,77,0.15); color: var(--red); }
+  .status-emergente { background: rgba(139,111,168,0.15); color: var(--accent3); }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead tr { border-bottom: 1px solid var(--accent); }
+  th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 400;
+    background: var(--surface);
+  }
+  td {
+    padding: 11px 14px;
+    vertical-align: top;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    font-size: 12.5px;
+  }
+  td:first-child { color: #eef0f5; font-weight: 500; white-space: nowrap; }
+  td .year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    display: block;
+    margin-top: 2px;
+  }
+  tr:hover td { background: var(--surface2); }
+  .camp-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+  .camp-econ { background: rgba(200,169,110,0.12); color: var(--accent); }
+  .camp-soc  { background: rgba(123,158,135,0.12); color: var(--accent2); }
+  .camp-crit { background: rgba(192,97,77,0.12); color: var(--red); }
+  .camp-alt  { background: rgba(139,111,168,0.12); color: var(--accent3); }
+  .camp-br   { background: rgba(91,159,173,0.12); color: #5b9fad; }
+  .verify-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--red);
+    margin-top: 3px;
+    display: block;
+  }
+
+  .lacunas-list { display: flex; flex-direction: column; gap: 10px; }
+  .lacuna-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+  }
+  .lacuna-item.elaboracao { border-left: 3px solid var(--accent3); }
+  .lacuna-item.literatura  { border-left: 3px solid var(--accent2); }
+  .lacuna-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    min-width: 28px;
+    margin-top: 1px;
+  }
+  .lacuna-body { flex: 1; }
+  .lacuna-tipo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .lt-lit { background: rgba(123,158,135,0.15); color: var(--accent2); }
+  .lt-elab { background: rgba(139,111,168,0.15); color: var(--accent3); }
+  .lacuna-title {
+    color: #eef0f5;
+    font-weight: 500;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .lacuna-text { font-size: 12.5px; color: var(--text-muted); line-height: 1.65; }
+  .lacuna-fonte {
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  .angulos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 14px;
+  }
+  .angulo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    position: relative;
+  }
+  .angulo-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .angulo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #eef0f5;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .angulo-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.65; }
+  .angulo-sustentam {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .angulo-sustentam strong { color: var(--accent3); font-weight: 400; }
+  .angulo-keywords { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .kw {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .angulo-num {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .caveats-list { display: flex; flex-direction: column; gap: 8px; }
+  .caveat-item {
+    display: flex;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    padding: 12px 18px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    align-items: flex-start;
+  }
+  .caveat-icon {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--red);
+    min-width: 16px;
+    margin-top: 2px;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer-left {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+  .footer-right {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 700px) {
+    .header, .container, .footer { padding-left: 20px; padding-right: 20px; }
+    .container { padding-top: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">▸ Sociologia Econômica &amp; Sociologia das Finanças — mono-fonte (Granovetter, 1985)</div>
+  <h1>Mapa de Pesquisa: <span>DOUTORADO</span></h1>
+  <div style="font-family:'Playfair Display',serif; font-size:16px; color:var(--text-muted); margin-top:6px; font-style:italic;">
+    Embeddedness — Mark Granovetter, "Economic Action and Social Structure: The Problem of Embeddedness" (1985)
+  </div>
+  <div class="header-sub">
+    <span><span class="dot"></span> Argumento central de Granovetter</span>
+    <span><span class="dot green"></span> Debate under/oversocialized</span>
+    <span><span class="dot purple"></span> Crítica a Williamson (mercados e hierarquias)</span>
+    <span><span class="dot red"></span> Conexão com BM-JM / doutorado</span>
+  </div>
+  <div class="nota-box">
+    <strong>Nota metodológica:</strong> Este mapa usa <strong style="color:#eef0f5">uma única fonte primária</strong> — o artigo de Granovetter (1985) anexado — por restrição explícita do pesquisador (não usar fontes externas).
+    <strong style="color:var(--accent)">[A]</strong> = afirmação do próprio Granovetter (1985), com página. &nbsp;
+    <strong style="color:var(--accent2)">[B]</strong> = convergência relatada por Granovetter entre ≥2 autores citados por ele. &nbsp;
+    <strong style="color:var(--accent3)">[C]</strong> = síntese ou elaboração do pesquisador, sinalizada.
+    Todo autor de terceiros (Williamson, Wrong, Polanyi, Macaulay etc.) aparece <strong style="color:var(--red)">apud Granovetter (1985)</strong> — não foi verificado no original, pois nenhuma fonte externa foi consultada nesta rodada.
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 1. PANORAMA -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Panorama Geral</span>
+      <span class="section-tag tag-gold">REVISÃO ANOTADA</span>
+    </div>
+
+    <div class="panorama-legend">
+      <span class="leg-item"><span class="leg-badge leg-a">A</span> afirmação de Granovetter (1985)</span>
+      <span class="leg-item"><span class="leg-badge leg-b">B</span> convergência relatada (≥2 autores, apud Granovetter)</span>
+      <span class="leg-item"><span class="leg-badge leg-c">C</span> elaboração do pesquisador</span>
+    </div>
+
+    <div class="panorama-list">
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">tese central</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> define o problema da imersão social (embeddedness): o comportamento econômico está de tal forma condicionado por relações sociais em curso que tratá-lo como independente delas seria um grave equívoco; a economia neoclássica oferece uma explicação "subsocializada" (undersocialized) do ator atomizado, enquanto economistas reformistas caem no extremo oposto, "supersocializado" (oversocialized).
+          <span class="ref">Granovetter, 1985, p.481-482</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-b">B</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">substantivismo vs. formalismo — polos pré-existentes</span>
+          Granovetter relata que a posição "substantivista" na antropologia — associada a <strong style="color:#eef0f5;">Polanyi (1944)</strong> e à ideia de "economia moral" — sustenta ruptura histórica na imersão social com a modernização, enquanto economistas e "formalistas" (North &amp; Thomas 1973; Williamson 1975; Popkin 1979) defendem que atores racionais atomizados explicam tanto sociedades tribais quanto modernas.
+          <span class="ref green">Polanyi 1944; North &amp; Thomas 1973; Williamson 1975; Popkin 1979 — todos apud Granovetter, 1985, p.482</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">posição própria do autor</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> diverge de ambas as escolas: afirma que o nível de imersão social em sociedades não-mercantis é mais baixo do que alegam substantivistas, mas segue mais substancial do que admitem formalistas e economistas — e não declina tanto com a "modernização" quanto se costuma supor.
+          <span class="ref">Granovetter, 1985, p.482-483</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">a concepção supersocializada</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> recupera a crítica de <strong style="color:#eef0f5;">Dennis Wrong (1961)</strong> à "concepção supersocializada do homem" na sociologia moderna: pessoas tão sensíveis à opinião alheia e tão obedientes a normas internalizadas que a obediência não seria sentida como fardo — Wrong via essa concepção como resposta exagerada ao atomismo hobbesiano/utilitarista.
+          <span class="ref">Wrong, 1961, apud Granovetter, 1985, p.483</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">o mercado idealizado como atomização</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong>, apoiado em Albert Hirschman (1982), descreve o mercado de concorrência perfeita como um espaço que funciona sem contato humano ou social prolongado entre as partes — negociação, remonstração e ajuste mútuo não têm lugar; a atomização social é pré-requisito da concorrência perfeita, já reconhecido implicitamente por Adam Smith.
+          <span class="ref">Hirschman, 1982, apud Granovetter, 1985, p.484</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">ironia teórica: fusão do under e do oversocialized</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> argumenta que, apesar do contraste aparente, as visões subsocializada e supersocializada convergem numa mesma atomização do ator em relação ao contexto social imediato — no relato subsocializado, o ator persegue interesse próprio isoladamente; no supersocializado, normas internalizadas tornam irrelevantes as relações sociais em curso.
+          <span class="ref">Granovetter, 1985, p.485-486</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">confiança e má-fé — o papel das redes concretas</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> sustenta que a confiança e a contenção da má-fé (malfeasance) na vida econômica derivam sobretudo de relações pessoais concretas e de redes ("networks") dessas relações — não de moralidade generalizada (Arrow 1974) nem de arranjos institucionais desenhados para tornar o oportunismo custoso (Williamson 1975; Lazear 1979).
+          <span class="ref">Granovetter, 1985, p.489-490; Arrow 1974 e Williamson 1975 apud Granovetter, p.487-489</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">o limite do próprio argumento — relações não bastam</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> qualifica sua tese: relações sociais podem ser condição necessária, mas não suficiente, para a confiança — a própria confiança gerada por laços pessoais amplia a oportunidade de má-fé (o "you always hurt the one you love"), e coalizões dependem de laços preexistentes para agir coletivamente, tanto para o bem quanto para o mal.
+          <span class="ref">Granovetter, 1985, p.491-492</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">aplicação: crítica ao programa "mercados e hierarquias"</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> usa o argumento de embeddedness para criticar o programa de pesquisa "mercados e hierarquias" de <strong style="color:#eef0f5;">Oliver Williamson (1975, 1979, 1981)</strong>: o "mercado" anônimo do modelo neoclássico é virtualmente inexistente na vida econômica real, e a firma hierárquica não elimina desordem interna — apenas a desloca.
+          <span class="ref">Granovetter, 1985, p.493-495, 502; Williamson 1975/1979/1981 apud Granovetter</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">evidência empírica citada contra a hierarquia eficiente</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> mobiliza estudos empíricos relatados por terceiros — Macaulay (1963) sobre relações não-contratuais entre firmas, Dalton (1959) sobre coalizões que driblam auditorias internas, e Eccles (1981, 1982, 1983) sobre "quasifirmas" na construção civil e sobre preços de transferência — para mostrar que ordem econômica frequentemente atravessa fronteiras de firma, e desordem frequentemente existe dentro delas.
+          <span class="ref">Macaulay 1963; Dalton 1959; Eccles 1981/1982/1983 — todos apud Granovetter, 1985, p.495-500</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">integração vertical como função da estrutura de rede</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> propõe que a pressão por integração vertical depende da estrutura das relações entre firmas: onde falta rede de relações pessoais, ou onde a rede gera conflito/oportunismo, há pressão para internalizar transações; onde a rede é estável e densa, essa pressão tende a estar ausente.
+          <span class="ref">Granovetter, 1985, p.502-503</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">crítica ao funcionalismo darwiniano da nova economia institucional</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> critica o apelo implícito de Williamson &amp; Ouchi (1981) a uma seleção "darwiniana" de formas organizacionais eficientes, chamando-o de argumento panglossiano — não falseável, mais artigo de fé do que objeto de investigação.
+          <span class="ref">Williamson &amp; Ouchi, 1981, apud Granovetter, 1985, p.503</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">nível de causalidade proximal, não macroestrutural</span>
+          <strong style="color:#eef0f5;">Granovetter (1985)</strong> reconhece explicitamente que seu argumento opera num nível de causalidade proximal — não trata de quais circunstâncias históricas ou macroestruturais levam sistemas a exibir determinadas configurações sociais, e não pretende responder a questões de grande escala sobre a natureza da sociedade moderna.
+          <span class="ref">Granovetter, 1985, p.506</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-c">C</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">síntese interpretativa [elaboração do pesquisador a partir de Granovetter 1985, p.481-486, 502-503]</span>
+          O argumento de embeddedness pode ser lido como uma <strong style="color:#eef0f5;">terceira via</strong> entre o diagnóstico institucional-descritivo de Berle &amp; Means (acionista disperso e passivo) e a formalização contratual-normativa de Jensen &amp; Meckling (agente racional maximizador contido por incentivos). Onde o eixo BM-JM resolve o problema de agência via desenho de incentivos e estrutura de propriedade, Granovetter desloca a questão para a <strong style="color:#eef0f5;">estrutura concreta das relações</strong> entre principal e agente — sugerindo que confiança, oportunismo e ordem dependem menos de "custos de agência" ótimos do que da densidade, história e configuração das redes sociais em que a relação está imersa.
+          <span class="ref purple">[elaboração do pesquisador]</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. DEBATES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Principais Debates</span>
+      <span class="section-tag tag-gold">5 PERSPECTIVAS (INTERNAS AO TEXTO)</span>
+    </div>
+    <div class="debates-grid">
+
+      <div class="debate-card gold">
+        <div class="debate-icon">▸ Debate 1 — Eixo estruturante do artigo</div>
+        <div class="debate-title">Subsocializado vs. Supersocializado</div>
+        <div class="debate-text">A dicotomia central que Granovetter usa para mapear o campo: economia neoclássica atomiza o ator via interesse racional (undersocialized); certas leituras sociológicas/reformistas atomizam via internalização normativa (oversocialized). Granovetter argumenta que ambas fracassam por negligenciar redes sociais em curso.</div>
+        <div class="debate-refs">Granovetter (1985) · Wrong (1961, apud Granovetter) · Parsons (1937, apud Granovetter)</div>
+        <span class="debate-status status-consenso">ARMAÇÃO CONCEITUAL DO PRÓPRIO AUTOR</span>
+      </div>
+
+      <div class="debate-card green">
+        <div class="debate-icon">▸ Debate 2 — Antropologia econômica</div>
+        <div class="debate-title">Substantivismo vs. Formalismo</div>
+        <div class="debate-text">Debate pré-existente que Granovetter posiciona como pano de fundo: substantivistas (Polanyi) veem ruptura histórica de imersão social com a modernização; formalistas e "nova economia institucional" (Williamson, North &amp; Thomas, Popkin) veem continuidade do atomismo racional em qualquer época. Granovetter rejeita ambos os extremos.</div>
+        <div class="debate-refs">Polanyi (1944, apud Granovetter) · North &amp; Thomas (1973, apud Granovetter) · Williamson (1975, apud Granovetter)</div>
+        <span class="debate-status status-disputado">DISPUTADO (RELATADO POR GRANOVETTER)</span>
+      </div>
+
+      <div class="debate-card red">
+        <div class="debate-icon">▸ Debate 3 — Aplicação central do artigo</div>
+        <div class="debate-title">Embeddedness vs. "Mercados e Hierarquias" (Williamson)</div>
+        <div class="debate-text">Granovetter contesta diretamente a tese de que a integração vertical resulta da busca eficiente por minimizar custos de transação. Argumenta que Williamson subestima a ordem gerada por redes sociais no "mercado" e superestima a eficácia da autoridade hierárquica (fiat) dentro da firma — citando estudos empíricos de Macaulay, Dalton e Eccles.</div>
+        <div class="debate-refs">Williamson (1975, 1979, 1981, apud Granovetter) · Macaulay (1963, apud Granovetter) · Dalton (1959, apud Granovetter) · Eccles (1981-83, apud Granovetter)</div>
+        <span class="debate-status status-disputado">DISPUTADO</span>
+      </div>
+
+      <div class="debate-card purple">
+        <div class="debate-icon">▸ Debate 4 — Epistemologia da nova economia institucional</div>
+        <div class="debate-title">Funcionalismo/Seleção "Darwiniana" vs. Análise Estrutural</div>
+        <div class="debate-text">Granovetter ataca o recurso, em Williamson &amp; Ouchi (1981), a uma lógica de seleção natural de formas organizacionais eficientes — para ele, isso é um argumento panglossiano, não falseável, que evita explicitar as pressões seletivas reais e os recursos necessários para implementar a integração vertical.</div>
+        <div class="debate-refs">Williamson &amp; Ouchi (1981, apud Granovetter) · crítica é afirmação direta de Granovetter (1985, p.503)</div>
+        <span class="debate-status status-disputado">CRÍTICA DIRETA DO AUTOR</span>
+      </div>
+
+      <div class="debate-card teal">
+        <div class="debate-icon">▸ Debate 5 — Reconciliação proposta</div>
+        <div class="debate-title">Escolha Racional Estreita vs. Escolha Racional Ampliada</div>
+        <div class="debate-text">Granovetter distingue a escolha racional estritamente econômica (atomizada) da escolha racional em sentido amplo, que inclui metas de sociabilidade, aprovação, status e poder. Nessa formulação ampliada, embeddedness e racionalidade não seriam incompatíveis — a "revisão psicológica" de economistas (Leibenstein, Piore) que abandona racionalidade estrita erra o alvo: o problema não é a psicologia ingênua, mas a negligência da estrutura social.</div>
+        <div class="debate-refs">Leibenstein (1976, apud Granovetter) · Piore (1975, 1979, apud Granovetter) · Hirschman (1977, apud Granovetter)</div>
+        <span class="debate-status status-emergente">POSIÇÃO CONCILIATÓRIA DO AUTOR</span>
+      </div>
+
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:4px;">
+      Consenso do próprio autor: nem o subsocializado nem o supersocializado dão conta da vida econômica real; a chave está na estrutura concreta das redes (Granovetter, 1985, p.481-486, 507). Disputado, nos termos do autor: se a integração vertical resulta de eficiência de custos de transação (Williamson) ou de configuração de rede social (Granovetter).
+    </div>
+  </div>
+
+  <!-- 3. AUTORES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Autores e Obras Centrais</span>
+      <span class="section-tag tag-red">TODOS APUD GRANOVETTER (1985) — NÃO VERIFICADOS NO ORIGINAL</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Autor(es)</th>
+            <th>Obra / referência (conforme citada por Granovetter)</th>
+            <th>Papel no argumento de Granovetter</th>
+            <th>Status da fonte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Granovetter<span class="year">1985</span></td>
+            <td>Economic Action and Social Structure: The Problem of Embeddedness. American Journal of Sociology 91(3):481-510</td>
+            <td>Fonte primária deste mapa — tese de embeddedness e crítica a Williamson</td>
+            <td><span class="camp-tag camp-soc">FONTE PRIMÁRIA</span></td>
+          </tr>
+          <tr>
+            <td>Wrong<span class="year">1961</span></td>
+            <td>The Oversocialized Conception of Man in Modern Sociology. American Sociological Review 26(2):183-93</td>
+            <td>Origem da crítica ao "homem supersocializado", recuperada por Granovetter (p.483-484)</td>
+            <td><span class="camp-tag camp-soc">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Polanyi<span class="year">1944</span></td>
+            <td>The Great Transformation. New York: Holt, Rinehart</td>
+            <td>Base da posição "substantivista" — ruptura histórica de imersão social (p.482)</td>
+            <td><span class="camp-tag camp-soc">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Williamson<span class="year">1975/1979/1981</span></td>
+            <td>Markets and Hierarchies (1975); "Transaction-Cost Economics" (1979); "The Economics of Organization" (1981)</td>
+            <td>Alvo principal da crítica — programa "mercados e hierarquias" (p.493-503)</td>
+            <td><span class="camp-tag camp-econ">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Williamson &amp; Ouchi<span class="year">1981</span></td>
+            <td>The Markets and Hierarchies and Visible Hand Perspectives. In: Perspectives on Organizational Design and Behavior</td>
+            <td>Alvo da crítica ao argumento "darwiniano"/funcionalista de seleção eficiente (p.503)</td>
+            <td><span class="camp-tag camp-econ">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Hirschman<span class="year">1977/1982</span></td>
+            <td>The Passions and the Interests (1977); "Rival Interpretations of Market Society" (1982)</td>
+            <td>Base da separação histórica "paixões" vs. "interesses"; caracterização do mercado idealizado (p.484, 505)</td>
+            <td><span class="camp-tag camp-soc">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Macaulay<span class="year">1963</span></td>
+            <td>Non-Contractual Relations in Business: A Preliminary Study. American Sociological Review 28(1):55-67</td>
+            <td>Evidência empírica de relações sociais substituindo litígio contratual entre firmas (p.495-497)</td>
+            <td><span class="camp-tag camp-soc">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Dalton<span class="year">1959</span></td>
+            <td>Men Who Manage. New York: Wiley</td>
+            <td>Etnografia de coalizões internas que driblam auditorias — desordem intrafirma (p.499-501)</td>
+            <td><span class="camp-tag camp-soc">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Eccles<span class="year">1981/1982/1983</span></td>
+            <td>"The Quasifirm in the Construction Industry" (1981); estudos sobre transfer pricing (1982, 1983)</td>
+            <td>Evidência de "quasifirmas" e da natureza política (não técnica) do preço de transferência (p.497-500)</td>
+            <td><span class="camp-tag camp-econ">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Ben-Porath<span class="year">1980</span></td>
+            <td>The F-Connection: Families, Friends and Firms. Population and Development Review 6(1):1-30</td>
+            <td>Visão funcionalista positiva de como continuidade de relações gera confiança (p.492)</td>
+            <td><span class="camp-tag camp-econ">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Arrow<span class="year">1974</span></td>
+            <td>The Limits of Organization. New York: Norton</td>
+            <td>Fonte do apelo a "moralidade generalizada" que Granovetter contesta (p.489)</td>
+            <td><span class="camp-tag camp-econ">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Leibenstein<span class="year">1976</span></td>
+            <td>Beyond Economic Man. Cambridge, Mass.: Harvard UP</td>
+            <td>Exemplo de "revisionismo psicológico" (racionalidade seletiva/X-inefficiency) discutido na seção final (p.505)</td>
+            <td><span class="camp-tag camp-econ">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Piore<span class="year">1975/1979</span></td>
+            <td>Notas sobre estratificação de mercado de trabalho (1975); Unemployment and Inflation (1979, org.)</td>
+            <td>Teoria de mercados de trabalho segmentados como versão supersocializada (p.485, 505-506)</td>
+            <td><span class="camp-tag camp-econ">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Bowles &amp; Gintis<span class="year">1975</span></td>
+            <td>Schooling in Capitalist America. New York: Basic</td>
+            <td>Exemplo de explicação supersocializada aplicada à educação e classe social (p.485-486)</td>
+            <td><span class="camp-tag camp-crit">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Samuelson<span class="year">1947</span></td>
+            <td>Foundations of Economic Analysis. Cambridge, Mass.: Harvard UP</td>
+            <td>Citação sobre a separação disciplinar economia/sociologia via racionalidade (p.506)</td>
+            <td><span class="camp-tag camp-econ">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Parsons<span class="year">1937</span></td>
+            <td>The Structure of Social Action. New York: Macmillan</td>
+            <td>Origem do "problema da ordem" hobbesiano retomado por Wrong e discutido por Granovetter (p.483)</td>
+            <td><span class="camp-tag camp-soc">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Geertz<span class="year">1979</span></td>
+            <td>Suq: The Bazaar Economy in Sefrou. In: Meaning and Order in Moroccan Society</td>
+            <td>Estudo do bazar marroquino usado como exemplo de reputação/rede mesmo em mercado aparentemente competitivo (p.491)</td>
+            <td><span class="camp-tag camp-soc">APUD GRANOVETTER</span></td>
+          </tr>
+          <tr>
+            <td>Stearns<span class="year">1982</span></td>
+            <td>Corporate Dependency and the Structure of the Capital Market: 1880-1980 (tese de doutorado, SUNY Stony Brook)</td>
+            <td>Citada por Granovetter ao notar que a literatura sobre "quem controla as corporações" negligencia o mercado de capitais como objeto (p.505)
+              <span class="verify-note">[verifique: trata-se de tese não publicada — sem DOI/editora para conferência independente]</span>
+            </td>
+            <td><span class="camp-tag camp-crit">APUD GRANOVETTER</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:8px;">
+      ⚠ Nenhuma das obras acima foi consultada diretamente nesta rodada (restrição de fontes externas). Todas as referências e citações são conforme relatadas por Granovetter (1985); eventual uso em texto de qualificação exige checagem nas fontes originais.
+    </div>
+  </div>
+
+  <!-- 4. LACUNAS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Lacunas Identificadas</span>
+      <span class="section-tag tag-red">OPORTUNIDADES</span>
+    </div>
+    <div class="lacunas-list">
+
+      <div class="lacuna-item literatura">
+        <span class="lacuna-num">L1</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-lit">apontada pelo próprio autor</span>
+          <strong class="lacuna-title">Análise restrita a causas proximais, não macroestruturais</strong>
+          <span class="lacuna-text">Granovetter reconhece explicitamente que seu argumento não trata de quais circunstâncias históricas ou macroestruturais levam sistemas a exibir determinadas configurações de relações sociais, nem responde a questões de grande escala sobre a natureza da sociedade moderna ou as fontes de mudança econômica e política.</span>
+          <div class="lacuna-fonte">▸ Apontada por: Granovetter (1985, p.506)</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item literatura">
+        <span class="lacuna-num">L2</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-lit">apontada pelo próprio autor</span>
+          <strong class="lacuna-title">Evitação, pela sociologia, do estudo de processos de mercado</strong>
+          <span class="lacuna-text">Granovetter observa que, com poucas exceções (Baker 1983; Burt 1983; White 1981), sociólogos se abstiveram de estudar seriamente qualquer assunto já reivindicado pela economia neoclássica, aceitando implicitamente a presunção de que "processos de mercado" não seriam objetos legítimos de estudo sociológico.</span>
+          <div class="lacuna-fonte">▸ Apontada por: Granovetter (1985, p.504)</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item literatura">
+        <span class="lacuna-num">L3</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-lit">apontada pelo próprio autor</span>
+          <strong class="lacuna-title">Literatura sobre "quem controla as corporações" negligencia o mercado de capitais</strong>
+          <span class="lacuna-text">Granovetter cita Stearns (1982) para observar que, embora seja amplamente reconhecido que a forma de captação de capital pelas corporações é determinante central do controle corporativo, a pesquisa relevante desde o início do século eliminou esse mercado como objeto de investigação.</span>
+          <div class="lacuna-fonte">▸ Apontada por: Stearns (1982, apud Granovetter, 1985, p.505)</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item elaboracao">
+        <span class="lacuna-num">L4</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-elab">elaboração própria</span>
+          <strong class="lacuna-title">Ausência de tratamento da propriedade concentrada (contexto não-anglo-saxão)</strong>
+          <span class="lacuna-text">Todo o argumento de Granovetter pressupõe, implicitamente, firmas norte-americanas com alta mobilidade interfirma e redes de relações interpessoais razoavelmente simétricas entre agentes. Não há qualquer menção a contextos de propriedade concentrada, estruturas piramidais ou ao problema principal-principal (controlador vs. minoritário) — típico de economias periféricas como a brasileira.</span>
+          <div class="lacuna-fonte">▸ [elaboração própria a partir de: Granovetter 1985, p.481-503 — ausência notada por leitura completa do texto]</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item elaboracao">
+        <span class="lacuna-num">L5</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-elab">elaboração própria</span>
+          <strong class="lacuna-title">Embeddedness não é conectado, no texto, ao aparato conceitual de "custos de agência"</strong>
+          <span class="lacuna-text">Embora Granovetter cite brevemente a literatura sobre "quem controla as corporações" (via Stearns 1982), ele não estabelece diálogo direto com os conceitos de custos de monitoramento, custos de bonding e perda residual de Jensen &amp; Meckling (1976) — a ponte entre embeddedness e teoria da agência BM-JM permanece implícita/inexplorada no artigo.</span>
+          <div class="lacuna-fonte">▸ [elaboração própria a partir de: Granovetter 1985, p.505 — ausência de conexão explícita com Jensen &amp; Meckling 1976]</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item elaboracao">
+        <span class="lacuna-num">L6</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-elab">elaboração própria</span>
+          <strong class="lacuna-title">Escala da governança corporativa contemporânea (conselhos, investidores institucionais) não é abordada</strong>
+          <span class="lacuna-text">O foco empírico de Granovetter está em relações diádicas e redes interpessoais (fornecedores, auditores, gestores de departamento) — não há tratamento da arquitetura formal de governança corporativa (conselhos de administração, blockholders institucionais, mercado de controle) que viria a ser central na literatura de shareholder value pós-1980.</span>
+          <div class="lacuna-fonte">▸ [elaboração própria a partir de: Granovetter 1985, p.493-503 — escopo empírico do artigo]</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. ÂNGULOS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Sugestões de Ângulo para a Pesquisa</span>
+      <span class="section-tag tag-purple">3 OPÇÕES</span>
+    </div>
+    <div class="angulos-grid">
+
+      <div class="angulo-card">
+        <div class="angulo-num">1</div>
+        <div class="angulo-label">▸ Ângulo Crítica Estrutural</div>
+        <div class="angulo-title">Embeddedness como crítica à premissa atomizada dos custos de agência</div>
+        <div class="angulo-desc">Usar o argumento de Granovetter para questionar a premissa atomizada subjacente aos "custos de monitoramento" e "custos de bonding" de Jensen &amp; Meckling (1976): mostrar que o comportamento do agente é mediado por redes concretas de relações — não apenas por incentivos contratuais desenhados para conter oportunismo. Reformula o problema de agência como problema de estrutura de rede, não apenas de desenho de contrato.</div>
+        <div class="angulo-sustentam"><strong>Sustentam:</strong> Granovetter (1985, p.481-486, 502-503)<br>Contraponto a criticar: Jensen &amp; Meckling (1976) — fora do escopo desta fonte única, requer verificação externa</div>
+        <div class="angulo-keywords">
+          <span class="kw">embeddedness</span>
+          <span class="kw">custos de agência</span>
+          <span class="kw">redes</span>
+          <span class="kw">atomização</span>
+        </div>
+      </div>
+
+      <div class="angulo-card">
+        <div class="angulo-num">2</div>
+        <div class="angulo-label">▸ Ângulo Propriedade Concentrada</div>
+        <div class="angulo-title">Embeddedness em contextos de controle concentrado (Brasil)</div>
+        <div class="angulo-desc">Investigar como redes de relações pessoais entre controladores, gestores e conselheiros em firmas de capital concentrado geram (ou não) confiança e ordem — deslocando o problema agente-principal clássico para redes de parentesco, coalizões familiares e alianças de bloco que Granovetter descreve para outros contextos (diretorias cruzadas, associações comerciais). Alta originalidade: aplica um instrumental relacional a um contexto empírico ausente do texto-fonte.</div>
+        <div class="angulo-sustentam"><strong>Sustentam:</strong> Granovetter (1985, p.495-497, sobre diretorias cruzadas e associações comerciais)<br>Aplicação: contexto brasileiro de propriedade concentrada (fora do escopo desta fonte única)</div>
+        <div class="angulo-keywords">
+          <span class="kw">controle concentrado</span>
+          <span class="kw">redes familiares</span>
+          <span class="kw">diretorias cruzadas</span>
+          <span class="kw">Brasil</span>
+        </div>
+      </div>
+
+      <div class="angulo-card">
+        <div class="angulo-num">3</div>
+        <div class="angulo-label">▸ Ângulo Comparativo</div>
+        <div class="angulo-title">Embeddedness (estrutural-relacional) vs. Performatividade (dispositivos de mercado)</div>
+        <div class="angulo-desc">Comparar e contrastar o argumento estrutural-relacional de Granovetter com abordagens performativas (que tratam a economia como dispositivo que formata mercados). Ambas criticam o atomismo neoclássico, mas com ênfases distintas: redes concretas de relações pessoais (Granovetter) vs. dispositivos técnicos e métricas que produzem o comportamento que pretendem apenas medir. Investigar como as duas lentes se complementam para entender a agência em mercados periféricos.</div>
+        <div class="angulo-sustentam"><strong>Sustentam:</strong> Granovetter (1985, argumento integral)<br>Contraponto: literatura de performatividade (fora do escopo desta fonte única — requer verificação externa)</div>
+        <div class="angulo-keywords">
+          <span class="kw">embeddedness</span>
+          <span class="kw">performatividade</span>
+          <span class="kw">comparação teórica</span>
+          <span class="kw">agência</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 6. CAVEATS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Caveats e Alertas</span>
+      <span class="section-tag tag-red">ATENÇÃO</span>
+    </div>
+    <div class="caveats-list">
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        Este mapa foi construído a partir de <strong style="color:#eef0f5;">uma única fonte primária</strong> (Granovetter, 1985), por restrição explícita do pesquisador. Nenhuma busca externa foi realizada para verificar, ampliar ou contextualizar as referências citadas por Granovetter.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        Todas as citações de terceiros (Wrong, Williamson, Polanyi, Macaulay, Dalton, Eccles, Ben-Porath, Hirschman, Arrow, Piore, Bowles &amp; Gintis, Samuelson, Parsons, Geertz, Stearns) são <strong style="color:#eef0f5;">apud Granovetter (1985)</strong> — não foram conferidas nos textos originais. Antes de citar diretamente qualquer um desses autores em texto de qualificação, verifique a fonte primária.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        Granovetter concentra-se explicitamente em <strong style="color:#eef0f5;">causas proximais</strong>, não em explicações macroestruturais ou históricas de mudança econômica (p.506). Não leia este artigo como uma teoria geral da mudança institucional.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        A conexão entre embeddedness e a teoria da agência BM-JM (seção 05 deste mapa) é <strong style="color:#eef0f5;">elaboração do pesquisador</strong> — Granovetter (1985) não discute Jensen &amp; Meckling nem custos de agência diretamente no texto anexado.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        A referência a Stearns (1982) é uma tese de doutorado não publicada, citada apenas de passagem por Granovetter — <strong style="color:var(--red)">[verifique]</strong> antes de usar como suporte substantivo.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-left">MAPA DE PESQUISA · DOUTORADO · SOCIOLOGIA ECONÔMICA &amp; FINANÇAS · FONTE ÚNICA</div>
+  <div class="footer-right">Granovetter (1985) · Wrong (1961, apud) · Williamson (1975/1979/1981, apud) · Macaulay (1963, apud) · Eccles (1981-83, apud)</div>
+</div>
+
+</body>
+</html>
