@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa de Pesquisa: DOUTORADO — Teoria das Elites</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0d0e11;
+    --surface: #13151a;
+    --surface2: #1a1d24;
+    --border: #252830;
+    --accent: #c8a96e;
+    --accent2: #7b9e87;
+    --accent3: #8b6fa8;
+    --text: #d4d8e2;
+    --text-muted: #7a7f8e;
+    --text-dim: #4a4f5e;
+    --red: #c0614d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 48px 64px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #eef0f5;
+    margin-bottom: 8px;
+  }
+  .header h1 span { color: var(--accent); font-style: italic; }
+  .header-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 16px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header-sub span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  .dot.green { background: var(--accent2); }
+  .dot.purple { background: var(--accent3); }
+  .dot.red { background: var(--red); }
+
+  /* NOTA METODOLÓGICA */
+  .nota-box {
+    background: rgba(200,169,110,0.05);
+    border: 1px solid rgba(200,169,110,0.2);
+    border-left: 3px solid var(--accent);
+    padding: 14px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 20px;
+  }
+  .nota-box strong { color: var(--accent); font-weight: 500; }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 64px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* SECTION */
+  .section { display: flex; flex-direction: column; gap: 16px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    min-width: 36px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #eef0f5;
+  }
+  .section-tag {
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .tag-gold { background: rgba(200,169,110,0.12); color: var(--accent); border: 1px solid rgba(200,169,110,0.25); }
+  .tag-green { background: rgba(123,158,135,0.12); color: var(--accent2); border: 1px solid rgba(123,158,135,0.25); }
+  .tag-purple { background: rgba(139,111,168,0.12); color: var(--accent3); border: 1px solid rgba(139,111,168,0.25); }
+  .tag-red { background: rgba(192,97,77,0.12); color: var(--red); border: 1px solid rgba(192,97,77,0.25); }
+
+  /* PANORAMA — anotado */
+  .panorama-list { display: flex; flex-direction: column; gap: 0; }
+  .panorama-item {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--surface);
+  }
+  .panorama-item:last-child { border-bottom: 1px solid var(--border); }
+  .panorama-item:hover { background: var(--surface2); }
+  .panorama-tipo {
+    min-width: 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 16px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    border-right: 1px solid var(--border);
+  }
+  .tipo-a { color: var(--accent); }
+  .tipo-b { color: var(--accent2); }
+  .tipo-c { color: var(--accent3); }
+  .panorama-content {
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text-muted);
+    flex: 1;
+  }
+  .panorama-content .ref {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-left: 4px;
+  }
+  .panorama-content .ref.green { color: var(--accent2); }
+  .panorama-content .ref.purple { color: var(--accent3); }
+  .panorama-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .panorama-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-top: -1px;
+  }
+  .leg-item { display: flex; align-items: center; gap: 6px; }
+  .leg-badge {
+    width: 16px; height: 16px;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 500;
+  }
+  .leg-a { background: rgba(200,169,110,0.15); color: var(--accent); }
+  .leg-b { background: rgba(123,158,135,0.15); color: var(--accent2); }
+  .leg-c { background: rgba(139,111,168,0.15); color: var(--accent3); }
+
+  /* DEBATES */
+  .debates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .debate-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .debate-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+  .debate-card.gold::after { background: var(--accent); }
+  .debate-card.green::after { background: var(--accent2); }
+  .debate-card.purple::after { background: var(--accent3); }
+  .debate-card.red::after { background: var(--red); }
+  .debate-card.teal::after { background: #5b9fad; }
+
+  .debate-icon {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .debate-card.gold .debate-icon { color: var(--accent); }
+  .debate-card.green .debate-icon { color: var(--accent2); }
+  .debate-card.purple .debate-icon { color: var(--accent3); }
+  .debate-card.red .debate-icon { color: var(--red); }
+  .debate-card.teal .debate-icon { color: #5b9fad; }
+
+  .debate-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #eef0f5;
+    margin-bottom: 8px;
+  }
+  .debate-text { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+  .debate-refs {
+    margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .debate-status {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .status-consenso { background: rgba(123,158,135,0.15); color: var(--accent2); }
+  .status-disputado { background: rgba(192,97,77,0.15); color: var(--red); }
+  .status-emergente { background: rgba(139,111,168,0.15); color: var(--accent3); }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead tr { border-bottom: 1px solid var(--accent); }
+  th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 400;
+    background: var(--surface);
+  }
+  td {
+    padding: 11px 14px;
+    vertical-align: top;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    font-size: 12.5px;
+  }
+  td:first-child { color: #eef0f5; font-weight: 500; white-space: nowrap; }
+  td .year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    display: block;
+    margin-top: 2px;
+  }
+  tr:hover td { background: var(--surface2); }
+  .camp-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+  .camp-econ { background: rgba(200,169,110,0.12); color: var(--accent); }
+  .camp-soc  { background: rgba(123,158,135,0.12); color: var(--accent2); }
+  .camp-crit { background: rgba(192,97,77,0.12); color: var(--red); }
+  .camp-alt  { background: rgba(139,111,168,0.12); color: var(--accent3); }
+  .camp-br   { background: rgba(91,159,173,0.12); color: #5b9fad; }
+  .verify-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--red);
+    margin-top: 3px;
+    display: block;
+  }
+
+  /* LACUNAS */
+  .lacunas-list { display: flex; flex-direction: column; gap: 10px; }
+  .lacuna-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+  }
+  .lacuna-item.elaboracao { border-left: 3px solid var(--accent3); }
+  .lacuna-item.literatura  { border-left: 3px solid var(--accent2); }
+  .lacuna-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    min-width: 28px;
+    margin-top: 1px;
+  }
+  .lacuna-body { flex: 1; }
+  .lacuna-tipo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .lt-lit { background: rgba(123,158,135,0.15); color: var(--accent2); }
+  .lt-elab { background: rgba(139,111,168,0.15); color: var(--accent3); }
+  .lacuna-title {
+    color: #eef0f5;
+    font-weight: 500;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .lacuna-text { font-size: 12.5px; color: var(--text-muted); line-height: 1.65; }
+  .lacuna-fonte {
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  /* ANGULOS */
+  .angulos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 14px;
+  }
+  .angulo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    position: relative;
+  }
+  .angulo-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .angulo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #eef0f5;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .angulo-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.65; }
+  .angulo-sustentam {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .angulo-sustentam strong { color: var(--accent3); font-weight: 400; }
+  .angulo-keywords { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .kw {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .angulo-num {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  /* CAVEATS */
+  .caveats-list { display: flex; flex-direction: column; gap: 8px; }
+  .caveat-item {
+    display: flex;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    padding: 12px 18px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    align-items: flex-start;
+  }
+  .caveat-icon {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--red);
+    min-width: 16px;
+    margin-top: 2px;
+  }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer-left {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+  .footer-right {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 700px) {
+    .header, .container, .footer { padding-left: 20px; padding-right: 20px; }
+    .container { padding-top: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">▸ Sociologia Política &amp; Sociologia Econômica — v1</div>
+  <h1>Mapa de Pesquisa: <span>DOUTORADO</span></h1>
+  <div style="font-family:'Playfair Display',serif; font-size:16px; color:var(--text-muted); margin-top:6px; font-style:italic;">
+    Teoria das Elites — Mosca · Pareto · Michels · Mills · Dahl · Zeitlin · Domhoff
+  </div>
+  <div class="header-sub">
+    <span><span class="dot"></span> Escola Italiana Clássica</span>
+    <span><span class="dot green"></span> Power Elite &amp; Crítica Pluralista</span>
+    <span><span class="dot purple"></span> Elite Corporativa / Classe Dirigente</span>
+    <span><span class="dot red"></span> Contexto Brasileiro</span>
+  </div>
+  <div class="nota-box">
+    <strong>Nota metodológica:</strong> Toda afirmação substantiva traz atribuição explícita.
+    <strong style="color:var(--accent)">[A]</strong> = o que um autor específico diz → autor citado. &nbsp;
+    <strong style="color:var(--accent2)">[B]</strong> = convergência da literatura → ≥2 autores. &nbsp;
+    <strong style="color:var(--accent3)">[C]</strong> = síntese ou elaboração do pesquisador → sinalizada.
+    Referências verificadas via busca na web (Wikipedia, Britannica, American Journal of Sociology, Encyclopedia.com, whorulesamerica.ucsc.edu).
+    Dúvidas residuais marcadas com <strong style="color:var(--red)">[verifique]</strong>.
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 1. PANORAMA -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Panorama Geral</span>
+      <span class="section-tag tag-gold">REVISÃO ANOTADA</span>
+    </div>
+
+    <div class="panorama-legend">
+      <span class="leg-item"><span class="leg-badge leg-a">A</span> afirmação de autor específico</span>
+      <span class="leg-item"><span class="leg-badge leg-b">B</span> convergência (≥2 autores)</span>
+      <span class="leg-item"><span class="leg-badge leg-c">C</span> elaboração do pesquisador</span>
+    </div>
+
+    <div class="panorama-list">
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">fundação da escola italiana — classe política</span>
+          <strong style="color:#eef0f5;">Gaetano Mosca (1896)</strong>, em <em>Elementi di Scienza Politica</em> (trad. <em>The Ruling Class</em>), sustenta que toda sociedade é necessariamente governada por uma minoria organizada — a "classe política" — e que essa é uma lei quase natural, independente do regime político ou grau de democratização.
+          <span class="ref">Mosca, 1896, Elementi di Scienza Politica (trad. The Ruling Class, McGraw-Hill, 1939)</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">circulação das elites — resíduos e derivações</span>
+          <strong style="color:#eef0f5;">Vilfredo Pareto</strong> descreve a história como um cemitério de aristocracias: o poder nunca sai das elites, mas circula dentro delas por cooptação — processo movido pela distribuição desigual de "resíduos" psicológicos (instinto de combinação vs. persistência dos agregados) entre elite e massas.
+          <span class="ref">Pareto, Trattato di Sociologia Generale [verifique: edição e ano exatos — 1916; trad. The Mind and Society, 1935]</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">lei de ferro da oligarquia</span>
+          <strong style="color:#eef0f5;">Robert Michels (1911)</strong>, em <em>Political Parties</em> (estudo sobre a social-democracia alemã), formula a "lei de ferro da oligarquia": toda organização, por maior que seja seu compromisso democrático declarado, tende a gerar uma liderança minoritária que concentra poder e se afasta da base. Michels foi próximo discípulo de Mosca e aluno de Max Weber.
+          <span class="ref">Michels, 1911, Zur Soziologie des Parteiwesens in der modernen Demokratie (trad. Political Parties, 1915)</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">deslocamento para os EUA — elite de poder tripartite</span>
+          <strong style="color:#eef0f5;">C. Wright Mills (1956)</strong>, em <em>The Power Elite</em>, argumenta que os interesses das lideranças militar, corporativa e política nos EUA estão entrelaçados numa "elite de poder" que concentra decisões de grandes consequências, tornando o cidadão comum relativamente impotente diante dessas três esferas.
+          <span class="ref">Mills, 1956, The Power Elite (Oxford University Press)</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">contraponto pluralista</span>
+          <strong style="color:#eef0f5;">Robert Dahl (1961)</strong>, em <em>Who Governs?</em> (estudo de caso sobre New Haven), contesta diretamente Mills: o poder político nos EUA estaria disperso entre múltiplos grupos que competem e barganham entre si, não monopolizado por uma elite única — conceito que Dahl mais tarde sistematiza como "poliarquia".
+          <span class="ref">Dahl, 1961, Who Governs? Democracy and Power in an American City (Yale UP)</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">ponte direta com o eixo BM-JM — crítica à tese da separação</span>
+          <strong style="color:#eef0f5;">Maurice Zeitlin (1974)</strong> argumenta que a separação entre propriedade e controle, tal como descrita por Berle &amp; Means, é um "pseudofato": revisando a evidência empírica disponível, sustenta que a "classe capitalista" permanece identificável e que teorias "gerenciais" carecem de fundamento quando a separação não se confirma.
+          <span class="ref">Zeitlin, 1974, Corporate Ownership and Control: The Large Corporation and the Capitalist Class, American Journal of Sociology 79(5):1073-1119</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">classe dirigente contemporânea — comunidade corporativa</span>
+          <strong style="color:#eef0f5;">G. William Domhoff</strong>, em <em>Who Rules America?</em> (1ª ed. 1967, sucessivas reedições), sustenta que uma classe alta baseada em grande riqueza está intimamente entrelaçada com uma "comunidade corporativa" — o conjunto de diretores que ocupam assentos em múltiplos conselhos de administração — e que essa comunidade domina, via rede de organizações de formulação de políticas, o governo federal.
+          <span class="ref">Domhoff, Who Rules America? (Prentice-Hall / Mayfield / Routledge, edições sucessivas 1967–2022)</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">círculo interno — diretores multiconselhos</span>
+          <strong style="color:#eef0f5;">Michael Useem (1984)</strong>, em <em>The Inner Circle</em>, identifica um subconjunto de líderes corporativos que ocupam assento em dois ou mais conselhos de administração simultaneamente e que, por essa posição estrutural, atuam como articuladores da ação política coletiva do empresariado nos EUA e no Reino Unido.
+          <span class="ref">Useem, 1984, The Inner Circle: Large Corporations and the Rise of Business Political Activity in the U.S. and U.K. (Oxford UP)</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-b">B</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">consenso mínimo entre clássicos e neo-elitistas</span>
+          Apesar de divergências de método e contexto histórico, há convergência entre autores da tradição elitista quanto à ideia de que toda estrutura de poder — política ou corporativa — tende a se organizar em torno de uma minoria coesa e relativamente estável, e que essa tendência independe do grau formal de democratização das instituições.
+          <span class="ref green">Mosca, 1896 · Michels, 1911 · Domhoff, Who Rules America? (edições sucessivas)</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-c">C</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">síntese interpretativa [elaboração do pesquisador a partir de Mosca 1896; Zeitlin 1974; Domhoff, Who Rules America?; Jensen &amp; Meckling 1976]</span>
+          A teoria das elites pode ser lida em diálogo direto com o eixo BM-JM já mapeado nesta pesquisa: onde Berle &amp; Means (1932) e Jensen &amp; Meckling (1976) descrevem a corporação moderna como um problema de <strong style="color:#eef0f5;">agência entre proprietários dispersos e gestores</strong>, a tradição elitista — sobretudo via Zeitlin (1974) e Domhoff — relê a mesma corporação como um <strong style="color:#eef0f5;">instrumento de reprodução de uma classe dirigente coesa</strong>, questionando se a "dispersão" da propriedade é, de fato, tão real quanto pressupõe o modelo gerencial.
+          <span class="ref purple">[elaboração do pesquisador]</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. DEBATES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Principais Debates</span>
+      <span class="section-tag tag-gold">5 PERSPECTIVAS</span>
+    </div>
+    <div class="debates-grid">
+
+      <div class="debate-card gold">
+        <div class="debate-icon">▸ Perspectiva 1 — Elitismo clássico</div>
+        <div class="debate-title">A Minoria Organizada Sempre Governa</div>
+        <div class="debate-text">Mosca, Pareto e Michels — a "escola italiana" — convergem na tese anti-marxista e anti-liberal de que toda sociedade é governada por uma minoria organizada, independentemente do regime; a diferença está no mecanismo (classe política em Mosca, circulação de resíduos em Pareto, lei de ferro organizacional em Michels).</div>
+        <div class="debate-refs">Mosca (1896) · Pareto (Trattato, 1916) · Michels (1911)</div>
+        <span class="debate-status status-consenso">CONSENSO INTERNO À ESCOLA</span>
+      </div>
+
+      <div class="debate-card green">
+        <div class="debate-icon">▸ Perspectiva 2 — Elite de poder vs. pluralismo</div>
+        <div class="debate-title">Mills contra Dahl</div>
+        <div class="debate-text">Mills (1956) sustenta que uma elite de poder tripartite (militar-corporativa-política) concentra decisões nos EUA. Dahl (1961) responde empiricamente com o caso de New Haven, defendendo que o poder está disperso entre múltiplas elites em disputa e barganha — uma "poliarquia", não uma elite única.</div>
+        <div class="debate-refs">Mills (1956) · Dahl (1961) · Hunter (1953, citado por Dahl)</div>
+        <span class="debate-status status-disputado">DISPUTADO — CLÁSSICO DA CIÊNCIA POLÍTICA</span>
+      </div>
+
+      <div class="debate-card red">
+        <div class="debate-icon">▸ Perspectiva 3 — Classe capitalista vs. gerencialismo</div>
+        <div class="debate-title">Zeitlin contra a tese da Separação (Berle &amp; Means)</div>
+        <div class="debate-text">Zeitlin (1974) chama de "pseudofato" a separação entre propriedade e controle popularizada por Berle &amp; Means, revisando estudos empíricos discrepantes e reafirmando a existência de uma classe capitalista identificável por trás da "corporação gerencial". Disputa direta com o núcleo do eixo BM-JM desta pesquisa.</div>
+        <div class="debate-refs">Zeitlin (1974) · Berle &amp; Means (1932, contraponto) · Larner (1966, evidência gerencialista)</div>
+        <span class="debate-status status-disputado">DISPUTADO — NÚCLEO DA TESE BM-JM</span>
+      </div>
+
+      <div class="debate-card purple">
+        <div class="debate-icon">▸ Perspectiva 4 — Redes e estrutura</div>
+        <div class="debate-title">Comunidade Corporativa e Círculo Interno</div>
+        <div class="debate-text">Domhoff descreve uma "comunidade corporativa" entrelaçada com a classe alta que domina, via rede de formulação de políticas, o governo federal americano. Useem (1984) refina esse argumento identificando um "círculo interno" de diretores multiconselhos como agentes articuladores dessa ação coletiva.</div>
+        <div class="debate-refs">Domhoff (Who Rules America?, ed. sucessivas) · Useem (1984)</div>
+        <span class="debate-status status-emergente">EM DESENVOLVIMENTO CONTÍNUO</span>
+      </div>
+
+      <div class="debate-card teal">
+        <div class="debate-icon">▸ Perspectiva 5 — Recepção latino-americana</div>
+        <div class="debate-title">Elites Políticas Brasileiras — Releitura Crítica</div>
+        <div class="debate-text">Literatura brasileira revisita Mosca, Pareto e Michels (e a leitura de Mills) buscando formular uma abordagem própria para as elites políticas nacionais, considerando contribuições e críticas dos clássicos transportadas para a necessidade contemporânea de aperfeiçoamento das democracias.</div>
+        <div class="debate-refs">[verifique: autoria exata do artigo "As elites políticas brasileiras: uma proposta de abordagem", Revista Perspectivas/UNESP] · Perissinotto (citado na literatura correlata)</div>
+        <span class="debate-status status-emergente">CRESCENTE — AGENDA A CONSTRUIR</span>
+      </div>
+
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:4px;">
+      Consenso cross-perspectivas: estruturas de poder — políticas ou corporativas — tendem a se organizar em torno de minorias relativamente coesas (Mosca 1896; Michels 1911; Domhoff, ed. sucessivas). Disputado: se essa concentração é universal e inescapável (elitismo clássico, Mills) ou historicamente contingente e contestável por múltiplos grupos (Dahl); e se a "separação" propriedade/controle é real (Berle &amp; Means) ou um artefato de medição (Zeitlin).
+    </div>
+  </div>
+
+  <!-- 3. AUTORES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Autores e Obras Centrais</span>
+      <span class="section-tag tag-green">9 REFERÊNCIAS NUCLEARES</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Autor(es)</th>
+            <th>Obra / Artigo completo</th>
+            <th>Contribuição específica</th>
+            <th>Campo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mosca<span class="year">1896</span></td>
+            <td>Elementi di Scienza Politica (trad. The Ruling Class, McGraw-Hill, 1939)</td>
+            <td>Doutrina da "classe política"; minoria organizada sempre governa, independentemente do regime</td>
+            <td><span class="camp-tag camp-econ">CIÊNCIA POLÍTICA</span></td>
+          </tr>
+          <tr>
+            <td>Pareto<span class="year">1916</span></td>
+            <td>Trattato di Sociologia Generale (trad. The Mind and Society, 1935)
+              <span class="verify-note">[verifique: edição/ano exatos da 1ª publicação e paginação de referência]</span>
+            </td>
+            <td>Circulação das elites; teoria dos resíduos e derivações</td>
+            <td><span class="camp-tag camp-soc">SOCIOLOGIA</span></td>
+          </tr>
+          <tr>
+            <td>Michels<span class="year">1911</span></td>
+            <td>Zur Soziologie des Parteiwesens in der modernen Demokratie (trad. Political Parties, 1915)</td>
+            <td>"Lei de ferro da oligarquia" — estudo da social-democracia alemã (SPD)</td>
+            <td><span class="camp-tag camp-econ">SOCIOLOGIA POLÍTICA</span></td>
+          </tr>
+          <tr>
+            <td>Mills<span class="year">1956</span></td>
+            <td>The Power Elite (Oxford University Press)</td>
+            <td>Elite de poder tripartite: militar, corporativa e política, entrelaçadas nos EUA</td>
+            <td><span class="camp-tag camp-crit">SOCIOLOGIA CRÍTICA</span></td>
+          </tr>
+          <tr>
+            <td>Dahl<span class="year">1961</span></td>
+            <td>Who Governs? Democracy and Power in an American City (Yale UP)</td>
+            <td>Crítica pluralista à tese da elite de poder; estudo de caso New Haven; conceito de poliarquia</td>
+            <td><span class="camp-tag camp-alt">CIÊNCIA POLÍTICA</span></td>
+          </tr>
+          <tr>
+            <td>Zeitlin<span class="year">1974</span></td>
+            <td>Corporate Ownership and Control: The Large Corporation and the Capitalist Class. American Journal of Sociology 79(5):1073-1119</td>
+            <td>Contesta a separação propriedade/controle como "pseudofato"; reafirma classe capitalista</td>
+            <td><span class="camp-tag camp-crit">SOC. ECONÔMICA</span></td>
+          </tr>
+          <tr>
+            <td>Domhoff<span class="year">1967–2022</span></td>
+            <td>Who Rules America? (Prentice-Hall / Mayfield / Routledge; múltiplas edições revisadas)</td>
+            <td>Classe alta entrelaçada com comunidade corporativa; rede de formulação de políticas</td>
+            <td><span class="camp-tag camp-soc">SOC. ECONÔMICA/POLÍTICA</span></td>
+          </tr>
+          <tr>
+            <td>Useem<span class="year">1984</span></td>
+            <td>The Inner Circle: Large Corporations and the Rise of Business Political Activity in the U.S. and U.K. (Oxford UP)</td>
+            <td>"Círculo interno" de diretores multiconselhos como articuladores de ação política coletiva</td>
+            <td><span class="camp-tag camp-soc">SOC. ECONÔMICA</span></td>
+          </tr>
+          <tr>
+            <td>Perissinotto (e correlatos)<span class="year">[verifique]</span></td>
+            <td>As elites políticas: questões de teoria e método [verifique: referência completa]; ver também artigo em Perspectivas/UNESP sobre elites políticas brasileiras</td>
+            <td>Releitura crítica de Mosca/Pareto/Michels/Mills para o caso brasileiro</td>
+            <td><span class="camp-tag camp-br">BRASIL</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:8px;">
+      ⚠ Referências marcadas com [verifique] em vermelho requerem checagem final (edição/ano exatos de Pareto; autoria e referência completa dos textos brasileiros sobre elites políticas) antes de citar em qualificação ou texto.
+    </div>
+  </div>
+
+  <!-- 4. LACUNAS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Lacunas Identificadas</span>
+      <span class="section-tag tag-red">OPORTUNIDADES</span>
+    </div>
+    <div class="lacunas-list">
+
+      <div class="lacuna-item literatura">
+        <span class="lacuna-num">L1</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-lit">apontada pela literatura</span>
+          <strong class="lacuna-title">Teoria clássica das elites precisa de reformulação para as democracias contemporâneas</strong>
+          <span class="lacuna-text">A literatura brasileira revisada aponta explicitamente a necessidade de formular uma "nova abordagem" às elites políticas que incorpore as contribuições e críticas de Pareto, Mosca e Michels, mas as supere diante das exigências de aperfeiçoamento das democracias modernas.</span>
+          <div class="lacuna-fonte">▸ Apontada por: artigo "As elites políticas brasileiras: uma proposta de abordagem" (Revista Perspectivas, UNESP) [verifique: autoria exata]</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item literatura">
+        <span class="lacuna-num">L2</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-lit">apontada pela literatura</span>
+          <strong class="lacuna-title">Mecanismos de coesão interna da elite corporativa permanecem subteorizados</strong>
+          <span class="lacuna-text">Revisão crítica do trabalho de Domhoff aponta que falta, em sua obra, uma análise coerente dos mecanismos que permitem à elite corporativa impor unidade interna quando conflitos de interesse entre setores empresariais ameaçam a ação coletiva coesa diante das políticas de governo.</span>
+          <div class="lacuna-fonte">▸ Apontada por: De Graaff &amp; van Apeldoorn, review essay sobre Domhoff, "Who Rules America Now" (Contemporary Sociology, 1985)</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item elaboracao">
+        <span class="lacuna-num">L3</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-elab">elaboração própria</span>
+          <strong class="lacuna-title">Diálogo entre teoria das elites e o eixo BM-JM ainda não foi sistematizado nesta pesquisa</strong>
+          <span class="lacuna-text">Embora Zeitlin (1974) conteste diretamente a tese da separação propriedade/controle de Berle &amp; Means, e Domhoff descreva a "comunidade corporativa" como base de uma classe dirigente, a literatura de teoria das elites e a literatura de governança corporativa (BM-JM) circulam largamente isoladas uma da outra — sobretudo na leitura brasileira, onde o problema de agência já identificado como <em>principal-principal</em> (Aldrighi &amp; Mazzer Neto 2007, já mapeado nesta pesquisa) raramente é lido à luz do conceito de "classe dirigente" ou "círculo interno".</span>
+          <div class="lacuna-fonte">▸ [elaboração própria a partir de: Zeitlin 1974; Domhoff, Who Rules America?; Useem 1984; Aldrighi &amp; Mazzer Neto 2007 — já presente no mapa BM-JM]</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item elaboracao">
+        <span class="lacuna-num">L4</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-elab">elaboração própria</span>
+          <strong class="lacuna-title">Ausência de estudos de "círculo interno" (inner circle) aplicados a conselhos de administração brasileiros</strong>
+          <span class="lacuna-text">O conceito de Useem (1984) — diretores que ocupam múltiplos assentos e articulam ação coletiva empresarial — não foi localizado, nesta busca, como aplicado sistematicamente a conselhos de administração no Brasil, onde a estrutura piramidal e familiar de propriedade (Aldrighi &amp; Mazzer Neto 2007) sugere uma dinâmica de coesão de elite potencialmente distinta da observada nos EUA/Reino Unido.</span>
+          <div class="lacuna-fonte">▸ [elaboração própria a partir de: Useem 1984; Aldrighi &amp; Mazzer Neto 2007; Miranda, Crocco &amp; Santos 2017 — já presente no mapa BM-JM]</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item elaboracao">
+        <span class="lacuna-num">L5</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-elab">elaboração própria</span>
+          <strong class="lacuna-title">Disputa Zeitlin vs. Berle-Means raramente é revisitada empiricamente em mercados periféricos</strong>
+          <span class="lacuna-text">A disputa entre a tese gerencialista (separação propriedade/controle) e a tese de classe (Zeitlin) foi travada majoritariamente com dados de corporações americanas dos anos 1960-1970. Não foi localizada, nesta busca, uma releitura sistemática dessa disputa específica à luz de estruturas de propriedade concentrada e piramidal como a brasileira — onde a resposta empírica à pergunta de Zeitlin parece, a priori, favorecer a tese de classe.</span>
+          <div class="lacuna-fonte">▸ [elaboração própria a partir de: Zeitlin 1974; Aldrighi &amp; Mazzer Neto 2007]</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. ÂNGULOS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Sugestões de Ângulo para a Pesquisa</span>
+      <span class="section-tag tag-purple">3 OPÇÕES</span>
+    </div>
+    <div class="angulos-grid">
+
+      <div class="angulo-card">
+        <div class="angulo-num">1</div>
+        <div class="angulo-label">▸ Ângulo Círculo Interno Periférico</div>
+        <div class="angulo-title">Aplicando o "Inner Circle" de Useem aos conselhos brasileiros</div>
+        <div class="angulo-desc">Mapear redes de diretores multiconselhos em empresas de capital aberto no Brasil (Novo Mercado/B3), testando se a estrutura piramidal e familiar gera um "círculo interno" com dinâmica de coesão distinta da observada nos EUA/Reino Unido por Useem. Ponte direta com os dados de Aldrighi &amp; Mazzer Neto já mapeados no eixo BM-JM.</div>
+        <div class="angulo-sustentam"><strong>Sustentam:</strong> Useem (1984) · Domhoff (Who Rules America?)<br>Dados empíricos: Aldrighi &amp; Mazzer Neto (2007) · Miranda, Crocco &amp; Santos (2017)</div>
+        <div class="angulo-keywords">
+          <span class="kw">inner circle</span>
+          <span class="kw">Useem</span>
+          <span class="kw">interlocking directorates</span>
+          <span class="kw">B3</span>
+          <span class="kw">redes de conselhos</span>
+        </div>
+      </div>
+
+      <div class="angulo-card">
+        <div class="angulo-num">2</div>
+        <div class="angulo-label">▸ Ângulo Zeitlin Revisitado</div>
+        <div class="angulo-title">A "pseudo-separação" propriedade/controle no capitalismo brasileiro</div>
+        <div class="angulo-desc">Retomar a crítica de Zeitlin (1974) à tese gerencialista de Berle &amp; Means à luz de dados de concentração de propriedade e estruturas piramidais no Brasil — testando se a "separação" que fundamenta o problema de agência clássico (Jensen &amp; Meckling) é empiricamente sustentável no contexto brasileiro ou se, como sugere Zeitlin, uma classe dirigente identificável permanece no controle. Ponte teórica mais direta com o núcleo BM-JM já mapeado.</div>
+        <div class="angulo-sustentam"><strong>Sustentam:</strong> Zeitlin (1974) · Domhoff (Who Rules America?)<br>Contraponto/dados: Aldrighi &amp; Mazzer Neto (2007) · Jensen &amp; Meckling (1976, tese a testar)</div>
+        <div class="angulo-keywords">
+          <span class="kw">Zeitlin</span>
+          <span class="kw">classe capitalista</span>
+          <span class="kw">pseudofato</span>
+          <span class="kw">pirâmides</span>
+          <span class="kw">agência principal-principal</span>
+        </div>
+      </div>
+
+      <div class="angulo-card">
+        <div class="angulo-num">3</div>
+        <div class="angulo-label">▸ Ângulo Elites Políticas x Econômicas</div>
+        <div class="angulo-title">Diálogo entre teoria clássica das elites e governança corporativa no Brasil</div>
+        <div class="angulo-desc">Investigar como conceitos da escola italiana clássica (classe política de Mosca; circulação de Pareto; lei de ferro de Michels) e da tradição neo-elitista americana (Mills; Domhoff) podem informar uma leitura sociológica da governança corporativa brasileira, situando o debate BM-JM dentro de uma tradição mais ampla de teoria do poder e da classe dirigente.</div>
+        <div class="angulo-sustentam"><strong>Sustentam:</strong> Mosca (1896) · Michels (1911) · Mills (1956)<br>Ponte teórica: Zeitlin (1974) · Fligstein (2001, já presente no mapa BM-JM)</div>
+        <div class="angulo-keywords">
+          <span class="kw">classe dirigente</span>
+          <span class="kw">Mosca</span>
+          <span class="kw">Mills</span>
+          <span class="kw">governança corporativa</span>
+          <span class="kw">teoria do poder</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 6. CAVEATS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Caveats e Alertas</span>
+      <span class="section-tag tag-red">ATENÇÃO</span>
+    </div>
+    <div class="caveats-list">
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        A teoria clássica das elites (Mosca, Pareto, Michels) nasceu num contexto político <strong style="color:#eef0f5;">explicitamente anti-marxista e cético quanto à democracia liberal</strong>; Michels, em particular, terminou como apoiador de Mussolini. Não trate essas obras como descrição neutra — historicize a posição política dos autores ao empregá-las.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        O debate Mills vs. Dahl (elite de poder vs. pluralismo) <strong style="color:#eef0f5;">não está resolvido</strong> na ciência política — é um dos debates mais duradouros da disciplina. Não apresente nenhum dos dois lados como consenso.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        A crítica de Zeitlin (1974) à tese da separação propriedade/controle é <strong style="color:#eef0f5;">uma posição dentro de um debate empírico ainda em aberto</strong> — a própria fonte descreve a questão empírica como "quite open" (bastante aberta). Não a apresente como refutação definitiva de Berle &amp; Means.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        A aplicação de conceitos como "inner circle" (Useem) e "comunidade corporativa" (Domhoff) ao Brasil é, até onde esta busca identificou, <strong style="color:#eef0f5;">uma agenda a construir, não uma literatura já consolidada</strong> — oportunidade e risco simultaneamente, como já assinalado no mapa BM-JM para a performatividade.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        Itens marcados com <strong style="color:var(--red)">[verifique]</strong> na tabela exigem checagem final (edição/ano exatos da obra de Pareto; autoria e referência completa dos textos brasileiros sobre elites políticas) antes da qualificação.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-left">MAPA DE PESQUISA · DOUTORADO · SOCIOLOGIA POLÍTICA &amp; SOCIOLOGIA ECONÔMICA · v1</div>
+  <div class="footer-right">Mosca (1896) · Michels (1911) · Mills (1956) · Dahl (1961) · Zeitlin (1974) · Domhoff (Who Rules America?)</div>
+</div>
+
+</body>
+</html>
