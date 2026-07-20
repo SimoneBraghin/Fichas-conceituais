@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa de Pesquisa: Perspectivas Contemporâneas sobre a Sociologia de Pierre Bourdieu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0d0e11;
+    --surface: #13151a;
+    --surface2: #1a1d24;
+    --border: #252830;
+    --accent: #c8a96e;
+    --accent2: #7b9e87;
+    --accent3: #8b6fa8;
+    --text: #d4d8e2;
+    --text-muted: #7a7f8e;
+    --text-dim: #4a4f5e;
+    --red: #c0614d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 48px 64px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 3.6vw, 44px);
+    font-weight: 900;
+    line-height: 1.15;
+    color: #eef0f5;
+    margin-bottom: 8px;
+  }
+  .header h1 span { color: var(--accent); font-style: italic; }
+  .header-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 16px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header-sub span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  .dot.green { background: var(--accent2); }
+  .dot.purple { background: var(--accent3); }
+  .dot.red { background: var(--red); }
+
+  .nota-box {
+    background: rgba(200,169,110,0.05);
+    border: 1px solid rgba(200,169,110,0.2);
+    border-left: 3px solid var(--accent);
+    padding: 14px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 20px;
+  }
+  .nota-box strong { color: var(--accent); font-weight: 500; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 64px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .section { display: flex; flex-direction: column; gap: 16px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    min-width: 36px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #eef0f5;
+  }
+  .section-tag {
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .tag-gold { background: rgba(200,169,110,0.12); color: var(--accent); border: 1px solid rgba(200,169,110,0.25); }
+  .tag-green { background: rgba(123,158,135,0.12); color: var(--accent2); border: 1px solid rgba(123,158,135,0.25); }
+  .tag-purple { background: rgba(139,111,168,0.12); color: var(--accent3); border: 1px solid rgba(139,111,168,0.25); }
+  .tag-red { background: rgba(192,97,77,0.12); color: var(--red); border: 1px solid rgba(192,97,77,0.25); }
+
+  .panorama-list { display: flex; flex-direction: column; gap: 0; }
+  .panorama-item {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--surface);
+  }
+  .panorama-item:last-child { border-bottom: 1px solid var(--border); }
+  .panorama-item:hover { background: var(--surface2); }
+  .panorama-tipo {
+    min-width: 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 16px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    border-right: 1px solid var(--border);
+  }
+  .tipo-a { color: var(--accent); }
+  .tipo-b { color: var(--accent2); }
+  .tipo-c { color: var(--accent3); }
+  .panorama-content {
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text-muted);
+    flex: 1;
+  }
+  .panorama-content .ref {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-left: 4px;
+  }
+  .panorama-content .ref.green { color: var(--accent2); }
+  .panorama-content .ref.purple { color: var(--accent3); }
+  .panorama-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .panorama-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-top: -1px;
+  }
+  .leg-item { display: flex; align-items: center; gap: 6px; }
+  .leg-badge {
+    width: 16px; height: 16px;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 500;
+  }
+  .leg-a { background: rgba(200,169,110,0.15); color: var(--accent); }
+  .leg-b { background: rgba(123,158,135,0.15); color: var(--accent2); }
+  .leg-c { background: rgba(139,111,168,0.15); color: var(--accent3); }
+
+  .debates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .debate-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .debate-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+  .debate-card.gold::after { background: var(--accent); }
+  .debate-card.green::after { background: var(--accent2); }
+  .debate-card.purple::after { background: var(--accent3); }
+  .debate-card.red::after { background: var(--red); }
+  .debate-card.teal::after { background: #5b9fad; }
+
+  .debate-icon {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .debate-card.gold .debate-icon { color: var(--accent); }
+  .debate-card.green .debate-icon { color: var(--accent2); }
+  .debate-card.purple .debate-icon { color: var(--accent3); }
+  .debate-card.red .debate-icon { color: var(--red); }
+  .debate-card.teal .debate-icon { color: #5b9fad; }
+
+  .debate-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #eef0f5;
+    margin-bottom: 8px;
+  }
+  .debate-text { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+  .debate-refs {
+    margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .debate-status {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .status-consenso { background: rgba(123,158,135,0.15); color: var(--accent2); }
+  .status-disputado { background: rgba(192,97,77,0.15); color: var(--red); }
+  .status-emergente { background: rgba(139,111,168,0.15); color: var(--accent3); }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead tr { border-bottom: 1px solid var(--accent); }
+  th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 400;
+    background: var(--surface);
+  }
+  td {
+    padding: 11px 14px;
+    vertical-align: top;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    font-size: 12.5px;
+  }
+  td:first-child { color: #eef0f5; font-weight: 500; white-space: nowrap; }
+  td .year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    display: block;
+    margin-top: 2px;
+  }
+  tr:hover td { background: var(--surface2); }
+  .camp-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+  .camp-econ { background: rgba(200,169,110,0.12); color: var(--accent); }
+  .camp-soc  { background: rgba(123,158,135,0.12); color: var(--accent2); }
+  .camp-crit { background: rgba(192,97,77,0.12); color: var(--red); }
+  .camp-alt  { background: rgba(139,111,168,0.12); color: var(--accent3); }
+  .camp-br   { background: rgba(91,159,173,0.12); color: #5b9fad; }
+  .camp-obra { background: rgba(200,169,110,0.20); color: var(--accent); }
+  .verify-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--red);
+    margin-top: 3px;
+    display: block;
+  }
+
+  .lacunas-list { display: flex; flex-direction: column; gap: 10px; }
+  .lacuna-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+  }
+  .lacuna-item.elaboracao { border-left: 3px solid var(--accent3); }
+  .lacuna-item.literatura  { border-left: 3px solid var(--accent2); }
+  .lacuna-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    min-width: 28px;
+    margin-top: 1px;
+  }
+  .lacuna-body { flex: 1; }
+  .lacuna-tipo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .lt-lit { background: rgba(123,158,135,0.15); color: var(--accent2); }
+  .lt-elab { background: rgba(139,111,168,0.15); color: var(--accent3); }
+  .lacuna-title {
+    color: #eef0f5;
+    font-weight: 500;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .lacuna-text { font-size: 12.5px; color: var(--text-muted); line-height: 1.65; }
+  .lacuna-fonte {
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  .angulos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 14px;
+  }
+  .angulo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    position: relative;
+  }
+  .angulo-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .angulo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #eef0f5;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .angulo-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.65; }
+  .angulo-sustentam {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .angulo-sustentam strong { color: var(--accent3); font-weight: 400; }
+  .angulo-keywords { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .kw {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .angulo-num {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .caveats-list { display: flex; flex-direction: column; gap: 8px; }
+  .caveat-item {
+    display: flex;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    padding: 12px 18px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    align-items: flex-start;
+  }
+  .caveat-icon {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--red);
+    min-width: 16px;
+    margin-top: 2px;
+  }
+
+  /* SEÇÃO EXTRA: OBRAS DE BOURDIEU */
+  .obras-list { display: flex; flex-direction: column; gap: 0; }
+  .obra-item {
+    display: flex;
+    gap: 16px;
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--surface);
+    font-size: 12.5px;
+    align-items: baseline;
+  }
+  .obra-item:last-child { border-bottom: 1px solid var(--border); }
+  .obra-item:hover { background: var(--surface2); }
+  .obra-ano {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--accent);
+    min-width: 46px;
+  }
+  .obra-titulo { color: #eef0f5; font-weight: 500; }
+  .obra-orig { color: var(--text-dim); font-size: 11px; font-style: italic; margin-left: 6px;}
+
+  /* SEÇÃO EXTRA: REFERÊNCIAS ABNT */
+  .refs-abnt { display: flex; flex-direction: column; gap: 10px; font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+  .refs-abnt p { padding-left: 24px; text-indent: -24px; }
+  .refs-abnt strong { color: #eef0f5; font-weight: 500; }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer-left {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+  .footer-right {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 700px) {
+    .header, .container, .footer { padding-left: 20px; padding-right: 20px; }
+    .container { padding-top: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">▸ Sociologia Econômica &amp; Sociologia das Finanças — Mapa complementar</div>
+  <h1>Mapa de Pesquisa: <span>Perspectivas Contemporâneas</span></h1>
+  <div style="font-family:'Playfair Display',serif; font-size:16px; color:var(--text-muted); margin-top:6px; font-style:italic;">
+    Sociologia de Pierre Bourdieu — recepção internacional, disputas pós-bourdieusianas e recepção brasileira
+  </div>
+  <div class="header-sub">
+    <span><span class="dot"></span> Ortodoxia / continuidade (Wacquant)</span>
+    <span><span class="dot green"></span> Recepção brasileira</span>
+    <span><span class="dot purple"></span> Rupturas pós-bourdieusianas</span>
+    <span><span class="dot red"></span> Extensões e revisões do conceito de campo</span>
+  </div>
+  <div class="nota-box">
+    <strong>Nota metodológica:</strong> Toda afirmação substantiva traz atribuição explícita.
+    <strong style="color:var(--accent)">[A]</strong> = o que um autor específico diz → autor citado. &nbsp;
+    <strong style="color:var(--accent2)">[B]</strong> = convergência da literatura → ≥2 autores. &nbsp;
+    <strong style="color:var(--accent3)">[C]</strong> = síntese ou elaboração do pesquisador → sinalizada.
+    Referências verificadas via busca web (SciELO, Cairn, SAGE, Wikipédia, sites institucionais/editoriais) em 19/07/2026.
+    Dúvidas residuais marcadas com <strong style="color:var(--red)">[verifique]</strong>.
+    <strong style="color:var(--accent)">Correção em relação ao material de partida:</strong> Nathalie Heinich foi reclassificada de "colaboradora" para "voz crítica/pós-bourdieusiana" — ela foi orientanda de Bourdieu, mas relata explicitamente ter se distanciado de sua sociologia (Heinich, 2007, <em>Pourquoi Bourdieu</em>; Wikipédia FR, verificado).
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 1. PANORAMA -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Panorama Geral</span>
+      <span class="section-tag tag-gold">REVISÃO ANOTADA</span>
+    </div>
+
+    <div class="panorama-legend">
+      <span class="leg-item"><span class="leg-badge leg-a">A</span> afirmação de autor específico</span>
+      <span class="leg-item"><span class="leg-badge leg-b">B</span> convergência (≥2 autores)</span>
+      <span class="leg-item"><span class="leg-badge leg-c">C</span> elaboração do pesquisador</span>
+    </div>
+
+    <div class="panorama-list">
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">núcleo conceitual — thinking tools</span>
+          <strong style="color:#eef0f5;">Bourdieu</strong> desenvolve, ao longo de mais de cinquenta anos de obra, um conjunto de "instrumentos de pensamento" — habitus, campo, capital (econômico, cultural, social) e capital simbólico — voltados a superar a dicotomia entre subjetivismo e objetivismo nas ciências sociais.
+          <span class="ref">Bourdieu, 1972, Esquisse d'une théorie de la pratique (trad. ingl. 1977, Outline of a Theory of Practice) · Bourdieu &amp; Wacquant, 1992, An Invitation to Reflexive Sociology</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">continuidade e defesa do legado</span>
+          <strong style="color:#eef0f5;">Wacquant</strong>, colaborador direto e coautor de Bourdieu, posiciona-se como o principal responsável pela defesa e expansão internacional do programa bourdieusiano, aplicando os conceitos de campo, capital e violência simbólica a novos objetos — marginalidade urbana, boxe, Estado penal.
+          <span class="ref">Wacquant, 2023, Bourdieu in the City: Challenging Urban Theory (Polity) · Bourdieu &amp; Wacquant, 1992, An Invitation to Reflexive Sociology</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-b">B</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">sistematização didática dos conceitos</span>
+          Comentadores internacionais consolidaram a obra de Bourdieu em compêndios de referência, tornando os "thinking tools" acessíveis para além do círculo francês — trabalho de sistematização, não de expansão teórica original.
+          <span class="ref green">Grenfell (ed.), 2013, Pierre Bourdieu: Key Concepts (2ª ed., Routledge) · Robbins, 2000, Bourdieu and Culture (Sage)</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">ruptura pós-bourdieusiana — sociologia da crítica</span>
+          <strong style="color:#eef0f5;">Boltanski</strong>, ex-colaborador de Bourdieu, funda a "sociologia pragmática da crítica" em oposição explícita ao que considera os excessos e pontos cegos da "sociologia crítica" bourdieusiana — recusando o pressuposto de que o sociólogo detém uma posição privilegiada de desvelamento da dominação.
+          <span class="ref">Atkinson, 2020, Luc Boltanski's pragmatic sociology: A Bourdieusian critique, European Journal of Social Theory 23(3):310-327</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">ruptura pós-bourdieusiana — distanciamento interno</span>
+          <strong style="color:#eef0f5;">Heinich</strong>, doutorada sob orientação de Bourdieu em 1981, relata ter levado cerca de dez anos para "se sortir da sociologia bourdieusiana" e formular uma sociologia da arte alternativa, apoiada posteriormente em Norbert Elias — uma trajetória de afastamento deliberado, não de continuidade.
+          <span class="ref">Heinich, 2007, Pourquoi Bourdieu (La Découverte) · Wikipédia FR "Nathalie Heinich" [verificado]</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">revisão da teoria dos campos — ênfase na mudança</span>
+          <strong style="color:#eef0f5;">Fligstein &amp; McAdam</strong> argumentam que a teoria dos campos de Bourdieu pode ser entendida como uma teoria da estabilidade social, e não da mudança — propondo em seu lugar a noção de "strategic action fields", mais atenta à emergência, contestação e transformação dos campos.
+          <span class="ref">Fligstein &amp; McAdam, 2012, A Theory of Fields (Oxford UP) · Fligstein, 2011, Toward a General Theory of Strategic Action Fields, Sociological Theory</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-a">A</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">extensão à sociologia econômica e das finanças</span>
+          <strong style="color:#eef0f5;">Jardim</strong> retoma o conceito bourdieusiano de socioanálise para propor uma "socioanálise das emoções", aplicada a mercados financeiros, previdência privada e fundos de pensão — uma das poucas linhas brasileiras a levar a sociologia econômica de Bourdieu (menos desenvolvida por ele mesmo) ao centro da análise.
+          <span class="ref">Jardim, 2021, Emoções e Sociologia Econômica, Revista Ensaios 18:142-164</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-b">B</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">recepção brasileira — dois pioneiros, uma trajetória de expansão</span>
+          A recepção de Bourdieu no Brasil é remontada por múltiplos autores a dois mediadores-chave nos anos 1970-80 — Sergio Miceli (que organizou e traduziu <em>A economia das trocas simbólicas</em>, 1974) e Renato Ortiz (organizador da coletânea <em>Pierre Bourdieu: Sociologia</em>, 1983) — que depois se ramificou para educação, cultura e, mais recentemente, sociologia econômica.
+          <span class="ref green">Miceli, 2021, A recepção de Pierre Bourdieu no Brasil, Sociologias Plurais 7(3):14-27 · Bortoluci, Jackson &amp; Pinheiro Filho, 2015, Contemporâneo clássico: A recepção de Pierre Bourdieu no Brasil, Lua Nova 94:217-254 · Ortiz, 2013, Nota sobre a recepção de Pierre Bourdieu no Brasil, Sociologia &amp; Antropologia 3(5):81-90</span>
+        </div>
+      </div>
+
+      <div class="panorama-item">
+        <div class="panorama-tipo tipo-c">C</div>
+        <div class="panorama-content">
+          <span class="panorama-sub">síntese interpretativa [elaboração do pesquisador a partir de Fligstein &amp; McAdam 2012; Jardim 2021; e dos mapas anteriores do próprio projeto — Jensen &amp; Meckling 1976; Fligstein 2001; Zeitlin 1974]</span>
+          O panorama contemporâneo de Bourdieu não é um campo pacificado: divide-se entre <strong style="color:#eef0f5;">continuidade fiel</strong> (Wacquant), <strong style="color:#eef0f5;">ruptura pragmática</strong> (Boltanski, Heinich) e <strong style="color:#eef0f5;">revisão estrutural do conceito de campo</strong> (Fligstein &amp; McAdam). Este último ponto é particularmente relevante para o doutorado de Kowalski: Fligstein já figura como autor-ponte no mapa de Teoria da Agência (perspectiva "concepções de controle" e crítica ao BM-JM), o que sugere uma possível articulação teórica ainda não explorada entre a teoria dos campos (bourdieusiana e pós-bourdieusiana) e a linhagem agência/elite já mapeada.
+          <span class="ref purple">[elaboração do pesquisador]</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. DEBATES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Principais Debates</span>
+      <span class="section-tag tag-gold">5 PERSPECTIVAS</span>
+    </div>
+    <div class="debates-grid">
+
+      <div class="debate-card gold">
+        <div class="debate-icon">▸ Perspectiva 1 — Ortodoxia e continuidade</div>
+        <div class="debate-title">A Defesa e Expansão Global do Programa Bourdieusiano</div>
+        <div class="debate-text">Wacquant e os comentadores sistematizadores (Grenfell, Robbins) mantêm e expandem os conceitos originais — habitus, campo, capital, violência simbólica — aplicando-os a novos objetos empíricos sem ruptura teórica de fundo. Trata-se de continuidade, não de superação.</div>
+        <div class="debate-refs">Wacquant (2023) · Grenfell (2013) · Robbins (2000)</div>
+        <span class="debate-status status-consenso">CONSOLIDADO NA TRADIÇÃO</span>
+      </div>
+
+      <div class="debate-card purple">
+        <div class="debate-icon">▸ Perspectiva 2 — Sociologia pragmática</div>
+        <div class="debate-title">A Crítica de Boltanski à "Sociologia Crítica"</div>
+        <div class="debate-text">Boltanski (com Thévenot) recusa a posição do sociólogo como detentor privilegiado de uma verdade oculta sobre a dominação, propondo estudar a crítica como fenômeno imanente à vida social. Susen (2014) e Atkinson (2020) discordam sobre o grau de ruptura real: Atkinson argumenta que Boltanski distorce ou lê mal Bourdieu em vários pontos.</div>
+        <div class="debate-refs">Boltanski &amp; Thévenot · Susen (2014) · Atkinson (2020)</div>
+        <span class="debate-status status-disputado">DISPUTADO</span>
+      </div>
+
+      <div class="debate-card red">
+        <div class="debate-icon">▸ Perspectiva 3 — Distanciamento interno</div>
+        <div class="debate-title">Heinich: de Dentro para Fora</div>
+        <div class="debate-text">Diferente de Boltanski (ruptura teórica explícita), Heinich narra um afastamento gradual e biográfico da sociologia de seu orientador, deslocando-se para uma sociologia da arte apoiada em Norbert Elias e recusando o que chama de "sociologismo" — a pretensão da sociologia de explicar tudo.</div>
+        <div class="debate-refs">Heinich (2007, Pourquoi Bourdieu) · Heinich (2001, La sociologie de l'art)</div>
+        <span class="debate-status status-disputado">DISPUTADO</span>
+      </div>
+
+      <div class="debate-card teal">
+        <div class="debate-icon">▸ Perspectiva 4 — Revisão do conceito de campo</div>
+        <div class="debate-title">Strategic Action Fields: Estabilidade vs. Mudança</div>
+        <div class="debate-text">Fligstein &amp; McAdam (2012) reconhecem o valor fundacional da teoria dos campos de Bourdieu, mas apontam que ela é mais equipada para explicar reprodução e estabilidade do que emergência e transformação de campos — problema que tentam resolver com a noção de "strategic action fields".</div>
+        <div class="debate-refs">Fligstein &amp; McAdam (2012) · Fligstein (2011, Sociological Theory) · Kluttz &amp; Fligstein (s.d.)</div>
+        <span class="debate-status status-emergente">CRESCENTE</span>
+      </div>
+
+      <div class="debate-card green">
+        <div class="debate-icon">▸ Perspectiva 5 — Recepção e expansão brasileira</div>
+        <div class="debate-title">Da Educação à Sociologia Econômica e das Emoções</div>
+        <div class="debate-text">A recepção brasileira, iniciada nos anos 1970 por Miceli e Ortiz sob forte influxo do contexto autoritário, concentrou-se por décadas em educação (Nogueira &amp; Nogueira, Setton, Catani) e cultura, com a sociologia econômica bourdieusiana (Jardim) surgindo como linha ainda minoritária e recente.</div>
+        <div class="debate-refs">Miceli (2021) · Ortiz (2013) · Setton (2002) · Nogueira &amp; Nogueira (2002) · Jardim (2021)</div>
+        <span class="debate-status status-emergente">CRESCENTE</span>
+      </div>
+
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:4px;">
+      Consenso cross-perspectivas: os conceitos-base (habitus, campo, capital) permanecem produtivos e amplamente citados (Grenfell 2013; Wacquant 2023; Fligstein &amp; McAdam 2012). Disputado: se a "sociologia crítica" bourdieusiana ainda é o paradigma dominante ou se foi superada por alternativas pragmáticas/pós-críticas (Boltanski, Heinich), e se o conceito de campo dá conta de explicar mudança, não apenas reprodução (Fligstein &amp; McAdam).
+    </div>
+  </div>
+
+  <!-- 3. AUTORES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Autores e Obras Centrais</span>
+      <span class="section-tag tag-green">26 REFERÊNCIAS</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Autor(es)</th>
+            <th>Obra / Artigo completo</th>
+            <th>Contribuição específica</th>
+            <th>Campo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bourdieu<span class="year">1972/1977</span></td>
+            <td>Esquisse d'une théorie de la pratique (Droz); trad. ingl. Outline of a Theory of Practice (Cambridge UP)</td>
+            <td>Formulação inicial de habitus e prática; crítica ao objetivismo estruturalista</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu &amp; Passeron<span class="year">1970</span></td>
+            <td>La Reproduction: Éléments pour une théorie du système d'enseignement (Minuit); trad. bras. A Reprodução, 1975</td>
+            <td>Teoria da reprodução das desigualdades via sistema de ensino; arbitrário cultural</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu<span class="year">1979/1984</span></td>
+            <td>La Distinction: Critique sociale du jugement (Minuit); trad. ingl. Distinction (Harvard UP)</td>
+            <td>Gosto e consumo cultural como marcadores de posição de classe; obra mais citada do autor</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu<span class="year">1980</span></td>
+            <td>Le Sens pratique (Minuit); trad. ingl. The Logic of Practice</td>
+            <td>Elaboração madura da teoria da prática e do habitus</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu &amp; Wacquant<span class="year">1992</span></td>
+            <td>An Invitation to Reflexive Sociology (University of Chicago Press)</td>
+            <td>Exposição sistemática dos conceitos-chave em formato de diálogo; objetivação participante</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU/WACQUANT</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu<span class="year">1989</span></td>
+            <td>La Noblesse d'État: Grandes écoles et esprit de corps (Minuit); trad. ingl. The State Nobility</td>
+            <td>Reprodução das elites via grandes écoles; capital escolar e poder</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu et al.<span class="year">1993</span></td>
+            <td>La Misère du monde (Seuil); trad. ingl. The Weight of the World</td>
+            <td>Sofrimento social; entrevistas coletivas sobre condições de vida contemporâneas</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu<span class="year">1994</span></td>
+            <td>Raisons pratiques: Sur la théorie de l'action (Seuil); trad. bras. Razões Práticas</td>
+            <td>Síntese da teoria da ação; ilusão (illusio) e interesse no campo</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu<span class="year">1992</span></td>
+            <td>Les Règles de l'art: Genèse et structure du champ littéraire (Seuil); trad. bras. As Regras da Arte</td>
+            <td>Campo literário francês do séc. XIX; autonomia do campo cultural (Flaubert)</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu<span class="year">1996</span></td>
+            <td>Sur la télévision (Raisons d'Agir)</td>
+            <td>Crítica ao campo jornalístico e midiático; heteronomia do campo</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu<span class="year">1997/2000</span></td>
+            <td>Méditations pascaliennes (Seuil); trad. ingl. Pascalian Meditations</td>
+            <td>Fundamentação filosófica tardia da teoria da prática; crítica à razão escolástica</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Bourdieu<span class="year">1998</span></td>
+            <td>La Domination masculine (Seuil); trad. bras. A Dominação Masculina</td>
+            <td>Violência simbólica de gênero; habitus e dominação naturalizada</td>
+            <td><span class="camp-tag camp-obra">OBRA — BOURDIEU</span></td>
+          </tr>
+          <tr>
+            <td>Wacquant<span class="year">2023</span></td>
+            <td>Bourdieu in the City: Challenging Urban Theory (Polity)</td>
+            <td>Extensão da teoria de campos à sociologia urbana; defesa contemporânea do legado</td>
+            <td><span class="camp-tag camp-econ">CONTINUIDADE</span></td>
+          </tr>
+          <tr>
+            <td>Grenfell (ed.)<span class="year">2013</span></td>
+            <td>Pierre Bourdieu: Key Concepts, 2ª ed. (Routledge)
+              <span class="verify-note">[verifique: ano da 1ª edição — fontes indicam ~2008, não confirmado com precisão]</span>
+            </td>
+            <td>Compêndio de referência com capítulos dedicados a cada conceito-chave</td>
+            <td><span class="camp-tag camp-econ">SISTEMATIZAÇÃO</span></td>
+          </tr>
+          <tr>
+            <td>Robbins<span class="year">2000</span></td>
+            <td>Bourdieu and Culture (Sage)</td>
+            <td>Panorama da obra teórica e analítica de Bourdieu; recepção anglófona</td>
+            <td><span class="camp-tag camp-econ">SISTEMATIZAÇÃO</span></td>
+          </tr>
+          <tr>
+            <td>Robbins<span class="year">1991</span></td>
+            <td>The Work of Pierre Bourdieu (Open University Press)
+              <span class="verify-note">[verifique: editora/local exatos]</span>
+            </td>
+            <td>Primeira avaliação sistemática em língua inglesa da obra de Bourdieu</td>
+            <td><span class="camp-tag camp-econ">SISTEMATIZAÇÃO</span></td>
+          </tr>
+          <tr>
+            <td>Heinich<span class="year">2007</span></td>
+            <td>Pourquoi Bourdieu (La Découverte)</td>
+            <td>Relato do afastamento pessoal e teórico da sociologia bourdieusiana</td>
+            <td><span class="camp-tag camp-crit">RUPTURA</span></td>
+          </tr>
+          <tr>
+            <td>Heinich<span class="year">2001</span></td>
+            <td>La sociologie de l'art (La Découverte)</td>
+            <td>Proposta de sociologia da arte alternativa, apoiada em Norbert Elias</td>
+            <td><span class="camp-tag camp-crit">RUPTURA</span></td>
+          </tr>
+          <tr>
+            <td>Atkinson<span class="year">2020</span></td>
+            <td>Luc Boltanski's pragmatic sociology: A Bourdieusian critique. European Journal of Social Theory 23(3):310-327</td>
+            <td>Defesa bourdieusiana contra a sociologia pragmática de Boltanski</td>
+            <td><span class="camp-tag camp-crit">RUPTURA (DEBATE)</span></td>
+          </tr>
+          <tr>
+            <td>Susen<span class="year">2014</span></td>
+            <td>Towards a Dialogue between Bourdieu's Critical Sociology and Boltanski's Pragmatic Sociology. In: The Spirit of Luc Boltanski (Anthem Press)</td>
+            <td>Mapeamento de convergências e divergências entre os dois programas</td>
+            <td><span class="camp-tag camp-crit">RUPTURA (DEBATE)</span></td>
+          </tr>
+          <tr>
+            <td>Fligstein &amp; McAdam<span class="year">2012</span></td>
+            <td>A Theory of Fields (Oxford University Press)</td>
+            <td>"Strategic action fields"; crítica ao caráter estático da teoria de campos de Bourdieu</td>
+            <td><span class="camp-tag camp-alt">REVISÃO</span></td>
+          </tr>
+          <tr>
+            <td>Ortiz (org.)<span class="year">1983</span></td>
+            <td>Pierre Bourdieu: Sociologia (Ática, Coleção Grandes Cientistas Sociais)</td>
+            <td>Primeira coletânea brasileira de textos de Bourdieu; mediação pioneira</td>
+            <td><span class="camp-tag camp-br">BRASIL</span></td>
+          </tr>
+          <tr>
+            <td>Ortiz<span class="year">2013</span></td>
+            <td>Nota sobre a recepção de Pierre Bourdieu no Brasil. Sociologia &amp; Antropologia 3(5):81-90</td>
+            <td>Balanço da recepção brasileira pelo próprio mediador pioneiro</td>
+            <td><span class="camp-tag camp-br">BRASIL</span></td>
+          </tr>
+          <tr>
+            <td>Miceli (org./trad.)<span class="year">1974</span></td>
+            <td>A Economia das Trocas Simbólicas (Perspectiva)</td>
+            <td>Primeira grande coletânea traduzida de Bourdieu no Brasil</td>
+            <td><span class="camp-tag camp-br">BRASIL</span></td>
+          </tr>
+          <tr>
+            <td>Miceli<span class="year">2021</span></td>
+            <td>A recepção de Pierre Bourdieu no Brasil: Circunstâncias e Mediadores. Sociologias Plurais 7(3):14-27</td>
+            <td>Depoimento/análise do próprio mediador sobre a difusão da obra no país</td>
+            <td><span class="camp-tag camp-br">BRASIL</span></td>
+          </tr>
+          <tr>
+            <td>Bortoluci, Jackson &amp; Pinheiro Filho<span class="year">2015</span></td>
+            <td>Contemporâneo clássico: A recepção de Pierre Bourdieu no Brasil. Lua Nova 94:217-254</td>
+            <td>Mapeamento acadêmico (não-testemunhal) da recepção brasileira</td>
+            <td><span class="camp-tag camp-br">BRASIL</span></td>
+          </tr>
+          <tr>
+            <td>Campos &amp; Szwako<span class="year">2020</span></td>
+            <td>Biblioteca bourdieusiana ou como as ciências sociais brasileiras vêm se apropriando de Pierre Bourdieu (1999-2018). BIB 91:1-25</td>
+            <td>Levantamento bibliométrico da apropriação de Bourdieu no Brasil recente</td>
+            <td><span class="camp-tag camp-br">BRASIL</span></td>
+          </tr>
+          <tr>
+            <td>Nogueira &amp; Nogueira<span class="year">2002</span></td>
+            <td>A sociologia da educação de Pierre Bourdieu: limites e contribuições. Educação &amp; Sociedade 23(78):15-36</td>
+            <td>Balanço crítico da sociologia da educação bourdieusiana no Brasil</td>
+            <td><span class="camp-tag camp-br">BRASIL — EDUCAÇÃO</span></td>
+          </tr>
+          <tr>
+            <td>Catani, Catani &amp; Pereira<span class="year">2001</span></td>
+            <td>As apropriações da obra de Pierre Bourdieu no campo educacional brasileiro, através de periódicos da área</td>
+            <td>Mapeamento da circulação de Bourdieu em periódicos educacionais brasileiros</td>
+            <td><span class="camp-tag camp-br">BRASIL — EDUCAÇÃO</span></td>
+          </tr>
+          <tr>
+            <td>Setton<span class="year">2002</span></td>
+            <td>A teoria do habitus em Pierre Bourdieu: uma leitura contemporânea. Revista Brasileira de Educação 20:60-70</td>
+            <td>Releitura do habitus para socialização contemporânea (família, escola, mídia)</td>
+            <td><span class="camp-tag camp-br">BRASIL — EDUCAÇÃO</span></td>
+          </tr>
+          <tr>
+            <td>Jardim<span class="year">2021</span></td>
+            <td>Emoções e Sociologia Econômica. Revista Ensaios 18:142-164</td>
+            <td>Socioanálise das emoções aplicada a mercados, previdência e finanças no Brasil</td>
+            <td><span class="camp-tag camp-br">BRASIL — SOC. ECONÔMICA</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);margin-top:8px;">
+      ⚠ Referências marcadas com [verifique] em vermelho requerem checagem final (edição/editora exatas) antes de citar em qualificação ou texto. Esta tabela não esgota a obra de Bourdieu — ver Seção Complementar "Obras de Bourdieu" e Seção 06 (Caveats) sobre volume total da produção.
+    </div>
+  </div>
+
+  <!-- 3B. OBRAS DE BOURDIEU (seção complementar solicitada) -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03b</span>
+      <span class="section-title">Complemento: Principais Obras de Pierre Bourdieu</span>
+      <span class="section-tag tag-gold">SELEÇÃO — NÃO EXAUSTIVA</span>
+    </div>
+    <div class="obras-list">
+      <div class="obra-item"><span class="obra-ano">1970</span><span class="obra-titulo">La Reproduction</span><span class="obra-orig">(com J.-C. Passeron) — trad. bras. A Reprodução, 1975</span></div>
+      <div class="obra-item"><span class="obra-ano">1972</span><span class="obra-titulo">Esquisse d'une théorie de la pratique</span><span class="obra-orig">— trad. ingl. Outline of a Theory of Practice, 1977</span></div>
+      <div class="obra-item"><span class="obra-ano">1974</span><span class="obra-titulo">A Economia das Trocas Simbólicas</span><span class="obra-orig">— coletânea org. Sergio Miceli (ed. brasileira)</span></div>
+      <div class="obra-item"><span class="obra-ano">1979</span><span class="obra-titulo">La Distinction</span><span class="obra-orig">— trad. bras. A Distinção; obra mais citada do autor</span></div>
+      <div class="obra-item"><span class="obra-ano">1980</span><span class="obra-titulo">Le Sens pratique</span><span class="obra-orig">— trad. ingl. The Logic of Practice</span></div>
+      <div class="obra-item"><span class="obra-ano">1983</span><span class="obra-titulo">Pierre Bourdieu: Sociologia</span><span class="obra-orig">— coletânea org. Renato Ortiz (ed. brasileira, Ática)</span></div>
+      <div class="obra-item"><span class="obra-ano">1989</span><span class="obra-titulo">La Noblesse d'État</span><span class="obra-orig">— trad. ingl. The State Nobility</span></div>
+      <div class="obra-item"><span class="obra-ano">1992</span><span class="obra-titulo">Les Règles de l'art</span><span class="obra-orig">— trad. bras. As Regras da Arte</span></div>
+      <div class="obra-item"><span class="obra-ano">1992</span><span class="obra-titulo">An Invitation to Reflexive Sociology</span><span class="obra-orig">(com L. Wacquant)</span></div>
+      <div class="obra-item"><span class="obra-ano">1993</span><span class="obra-titulo">La Misère du monde</span><span class="obra-orig">— trad. ingl. The Weight of the World</span></div>
+      <div class="obra-item"><span class="obra-ano">1994</span><span class="obra-titulo">Raisons pratiques</span><span class="obra-orig">— trad. bras. Razões Práticas</span></div>
+      <div class="obra-item"><span class="obra-ano">1996</span><span class="obra-titulo">Sur la télévision</span><span class="obra-orig">— trad. bras. Sobre a Televisão</span></div>
+      <div class="obra-item"><span class="obra-ano">1997</span><span class="obra-titulo">Méditations pascaliennes</span><span class="obra-orig">— trad. ingl. Pascalian Meditations</span></div>
+      <div class="obra-item"><span class="obra-ano">1998</span><span class="obra-titulo">La Domination masculine</span><span class="obra-orig">— trad. bras. A Dominação Masculina</span></div>
+      <div class="obra-item"><span class="obra-ano">1998</span><span class="obra-titulo">Contre-feux</span><span class="obra-orig">— trad. bras. Contrafogos</span></div>
+      <div class="obra-item"><span class="obra-ano">2000</span><span class="obra-titulo">Les Structures sociales de l'économie</span><span class="obra-orig">— base menos desenvolvida de sua sociologia econômica [verifique: tradução brasileira integral]</span></div>
+    </div>
+    <div class="nota-box" style="margin-top:4px;">
+      <strong>Nota sobre exaustividade:</strong> fontes consultadas (Amazon Author Page; Goodreads; bibliografia Delsaut &amp; Rivière, 1958-1988, em In Other Words, Stanford UP 1990) indicam que Bourdieu é autor de <strong>mais de 30 livros e cerca de 350 artigos</strong>. A lista acima é seletiva — prioriza as obras mais citadas na literatura secundária consultada. Para levantamento completo, ver a bibliografia organizada por Yvette Delsaut e Marie-Christine Rivière (2002), citada por Derek Robbins como referência-padrão para o período 1958-2002. Esta seção não substitui consulta a catálogo bibliográfico completo.
+    </div>
+  </div>
+
+  <!-- 4. LACUNAS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Lacunas Identificadas</span>
+      <span class="section-tag tag-red">OPORTUNIDADES</span>
+    </div>
+    <div class="lacunas-list">
+
+      <div class="lacuna-item literatura">
+        <span class="lacuna-num">L1</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-lit">apontada pela literatura</span>
+          <strong class="lacuna-title">Ausência de síntese sistemática entre sociologia crítica e sociologia pragmática</strong>
+          <span class="lacuna-text">Susen (2014) nota que, apesar da extensa discussão sobre as diferenças entre Bourdieu e Boltanski, falta um tratamento sistemático das convergências, divergências e pontos de integração possível entre os dois programas.</span>
+          <div class="lacuna-fonte">▸ Apontada por: Susen (2014, In: The Spirit of Luc Boltanski, Anthem Press)</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item literatura">
+        <span class="lacuna-num">L2</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-lit">apontada pela literatura</span>
+          <strong class="lacuna-title">Teoria dos campos pouco equipada para explicar mudança e emergência</strong>
+          <span class="lacuna-text">Fligstein &amp; McAdam (2012) argumentam explicitamente que, sem uma teoria da emergência, estabilidade e transformação dos campos, a herança bourdieusiana permanece incompleta como teoria geral da ação coletiva.</span>
+          <div class="lacuna-fonte">▸ Apontada por: Fligstein &amp; McAdam (2012, A Theory of Fields, Oxford UP)</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item literatura">
+        <span class="lacuna-num">L3</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-lit">apontada pela literatura</span>
+          <strong class="lacuna-title">Aplicação da teoria de campos à economia permanece marginal</strong>
+          <span class="lacuna-text">Fontes acadêmicas (Academia.edu, "Can the Labour Market be conceived of in terms of field theory") apontam que, apesar de Bourdieu ter esboçado princípios para interpretar mercados em termos de teoria de campos (em Les Structures sociales de l'économie), essa vertente permaneceu pouco desenvolvida por ele mesmo e pouco explorada pela sociologia econômica em geral, com exceção parcial de Fligstein.</span>
+          <div class="lacuna-fonte">▸ Apontada por: literatura secundária sobre teoria de campos e mercado de trabalho [fonte agregadora — verificar artigo original antes de citar em texto final]</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item elaboracao">
+        <span class="lacuna-num">L4</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-elab">elaboração própria</span>
+          <strong class="lacuna-title">Sociologia econômica bourdieusiana no Brasil é ainda incipiente e isolada</strong>
+          <span class="lacuna-text">A recepção brasileira de Bourdieu, mapeada por Miceli (2021), Ortiz (2013), Bortoluci, Jackson &amp; Pinheiro Filho (2015) e Campos &amp; Szwako (2020), concentra-se fortemente em educação e cultura. A aplicação à sociologia econômica e das finanças (Jardim) aparece como linha isolada, sem interlocução direta identificada, até o momento, com a tradição de sociologia econômica e das finanças já mapeada no projeto de Kowalski (Fligstein, Krippner, van der Zwan).</span>
+          <div class="lacuna-fonte">▸ [elaboração própria a partir de: Miceli 2021; Bortoluci, Jackson &amp; Pinheiro Filho 2015; Campos &amp; Szwako 2020; Jardim 2021]</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item elaboracao">
+        <span class="lacuna-num">L5</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-elab">elaboração própria</span>
+          <strong class="lacuna-title">Ponte teórica não explorada entre teoria de campos (Bourdieu/Fligstein) e a linhagem agência-elite já mapeada no doutorado</strong>
+          <span class="lacuna-text">Fligstein já é autor-ponte central no mapa de Teoria da Agência do próprio projeto (perspectiva "concepções de controle" e crítica ao paradigma BM-JM), e sua crítica bourdieusiana ao caráter estático do conceito de campo (Fligstein &amp; McAdam, 2012) pode oferecer um vocabulário complementar à crítica de Zeitlin (1974) à tese da separação propriedade-controle, ambas convergindo na ideia de que estruturas de poder corporativo são socialmente construídas e contestadas, não dadas. Essa articulação não foi localizada na literatura consultada.</span>
+          <div class="lacuna-fonte">▸ [elaboração própria a partir de: Fligstein &amp; McAdam 2012; Fligstein 2001 — já presente no mapa de Teoria da Agência do projeto; Zeitlin 1974 — já presente no mapa de Elite Theory do projeto]</div>
+        </div>
+      </div>
+
+      <div class="lacuna-item elaboracao">
+        <span class="lacuna-num">L6</span>
+        <div class="lacuna-body">
+          <span class="lacuna-tipo lt-elab">elaboração própria</span>
+          <strong class="lacuna-title">Ausência de um mapeamento comparativo entre a recepção "ortodoxa" e a recepção "crítica" de Bourdieu no Brasil</strong>
+          <span class="lacuna-text">A literatura brasileira mapeada por Bortoluci, Jackson &amp; Pinheiro Filho (2015) e Miceli (2021) descreve a chegada e consolidação de Bourdieu no país, mas não foi localizado, na busca realizada, um estudo específico sobre como (ou se) as rupturas pós-bourdieusianas internacionais (Boltanski, Heinich) circularam e foram debatidas na sociologia brasileira.</span>
+          <div class="lacuna-fonte">▸ [elaboração própria a partir de: Bortoluci, Jackson &amp; Pinheiro Filho 2015; Miceli 2021; Atkinson 2020; Heinich 2007]</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. ÂNGULOS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Sugestões de Ângulo para a Pesquisa</span>
+      <span class="section-tag tag-purple">3 OPÇÕES</span>
+    </div>
+    <div class="angulos-grid">
+
+      <div class="angulo-card">
+        <div class="angulo-num">1</div>
+        <div class="angulo-label">▸ Ângulo Ponte Teórica</div>
+        <div class="angulo-title">Bourdieu, teoria de campos e a linhagem agência-elite do próprio doutorado</div>
+        <div class="angulo-desc">Explorar diretamente a lacuna L5: articular a crítica de Fligstein &amp; McAdam ao caráter estático do campo bourdieusiano com a crítica de Zeitlin à tese da separação propriedade-controle, propondo um vocabulário conjunto (campo/poder/posição estrutural) para pensar a governança corporativa brasileira. Ângulo de maior originalidade teórica e de conexão direta com o restante do projeto.</div>
+        <div class="angulo-sustentam"><strong>Sustentam:</strong> Fligstein &amp; McAdam (2012) · Fligstein (2001, já no mapa BM-JM)<br>Contraponto/base: Zeitlin (1974, já no mapa de Elite Theory) · Jensen &amp; Meckling (1976)</div>
+        <div class="angulo-keywords">
+          <span class="kw">teoria de campos</span>
+          <span class="kw">Fligstein</span>
+          <span class="kw">Zeitlin</span>
+          <span class="kw">strategic action fields</span>
+          <span class="kw">governança</span>
+        </div>
+      </div>
+
+      <div class="angulo-card">
+        <div class="angulo-num">2</div>
+        <div class="angulo-label">▸ Ângulo Sociologia Econômica</div>
+        <div class="angulo-title">A sociologia econômica bourdieusiana no Brasil: uma linha ainda marginal</div>
+        <div class="angulo-desc">Investigar por que a vertente econômica/financeira de Bourdieu (via Jardim) permanece isolada na recepção brasileira, majoritariamente concentrada em educação e cultura — e se há espaço para articulá-la à sociologia das finanças e à teoria da agência já centrais no projeto. Ângulo de revisão de literatura com potencial de originalidade situacional.</div>
+        <div class="angulo-sustentam"><strong>Sustentam:</strong> Jardim (2021) · Miceli (2021) · Bortoluci, Jackson &amp; Pinheiro Filho (2015)<br>Contraponto: Campos &amp; Szwako (2020, levantamento bibliométrico)</div>
+        <div class="angulo-keywords">
+          <span class="kw">sociologia econômica</span>
+          <span class="kw">Jardim</span>
+          <span class="kw">recepção brasileira</span>
+          <span class="kw">finanças</span>
+          <span class="kw">socioanálise</span>
+        </div>
+      </div>
+
+      <div class="angulo-card">
+        <div class="angulo-num">3</div>
+        <div class="angulo-label">▸ Ângulo Debate Metateórico</div>
+        <div class="angulo-title">Sociologia crítica vs. sociologia pragmática aplicada a elites corporativas</div>
+        <div class="angulo-desc">Comparar o que a "sociologia crítica" bourdieusiana (dominação, capital, campo) e a "sociologia pragmática da crítica" de Boltanski (justificação, dispositivos de prova) diriam, cada uma, sobre a legitimação do poder de controladores em empresas de propriedade concentrada no Brasil — um exercício de contraste metateórico aplicado.</div>
+        <div class="angulo-sustentam"><strong>Sustentam:</strong> Boltanski &amp; Thévenot · Susen (2014) · Atkinson (2020)<br>Contraponto: Bourdieu &amp; Wacquant (1992) · Wacquant (2023)</div>
+        <div class="angulo-keywords">
+          <span class="kw">Boltanski</span>
+          <span class="kw">sociologia pragmática</span>
+          <span class="kw">justificação</span>
+          <span class="kw">elites corporativas</span>
+          <span class="kw">metateoria</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 6. CAVEATS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Caveats e Alertas</span>
+      <span class="section-tag tag-red">ATENÇÃO</span>
+    </div>
+    <div class="caveats-list">
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        <strong style="color:#eef0f5;">Correção em relação ao material de partida:</strong> Nathalie Heinich não deve ser tratada como colaboradora ou continuadora de Bourdieu — ela relata explicitamente um afastamento teórico e biográfico de sua sociologia (Heinich, 2007). Classificá-la ao lado de Wacquant, Grenfell e Robbins seria um erro de categorização.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        A obra de Bourdieu é vastíssima (<strong style="color:#eef0f5;">30+ livros, ~350 artigos</strong>) — a listagem de obras na Seção 03b é seletiva e baseada em fontes secundárias de divulgação (Amazon, Goodreads, Britannica), não em catálogo bibliográfico primário completo. Para citação em qualificação, consultar a bibliografia de Delsaut &amp; Rivière (2002) ou catálogo institucional (BnF, Collège de France).
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        Miceli (2021) é <strong style="color:#eef0f5;">fonte de primeira mão</strong> sobre a própria recepção brasileira de Bourdieu (ele próprio foi o mediador pioneiro) — deve ser tratado como testemunho histórico situado, não como análise externa neutra.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        A oposição entre "sociologia crítica" (Bourdieu) e "sociologia pragmática" (Boltanski) <strong style="color:#eef0f5;">não está resolvida</strong> na literatura — Atkinson (2020) e Susen (2014) discordam sobre o grau real de ruptura teórica. Não apresente essa disputa como decidida a favor de um lado.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        A conexão proposta na Lacuna L5 e no Ângulo 1 (entre Fligstein &amp; McAdam e Zeitlin) é <strong style="color:var(--red)">elaboração do pesquisador</strong> — não foi localizada explicitamente na literatura consultada nesta sessão de busca. Trate como hipótese de trabalho a ser testada, não como achado estabelecido.
+      </div>
+      <div class="caveat-item">
+        <span class="caveat-icon">!</span>
+        Itens marcados com <strong style="color:var(--red)">[verifique]</strong> na Seção 03 (edição de Grenfell 2013, editora exata de Robbins 1991, tradução integral de Les Structures sociales de l'économie) exigem checagem final antes da qualificação.
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. REFERÊNCIAS EM ORDEM ALFABÉTICA — ABNT -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Referências (ABNT, ordem alfabética)</span>
+      <span class="section-tag tag-purple">FORMATAÇÃO ABNT</span>
+    </div>
+    <div class="refs-abnt">
+      <p><strong>ATKINSON, Will.</strong> Luc Boltanski's pragmatic sociology: A Bourdieusian critique. <em>European Journal of Social Theory</em>, v. 23, n. 3, p. 310-327, 2020.</p>
+      <p><strong>BORTOLUCI, José Henrique; JACKSON, Luiz Carlos; PINHEIRO FILHO, Fernando Antonio.</strong> Contemporâneo clássico: A recepção de Pierre Bourdieu no Brasil. <em>Lua Nova</em>, n. 94, p. 217-254, 2015.</p>
+      <p><strong>BOURDIEU, Pierre.</strong> Esquisse d'une théorie de la pratique. Genève: Droz, 1972. (Trad. ingl. Outline of a Theory of Practice. Cambridge: Cambridge University Press, 1977).</p>
+      <p><strong>BOURDIEU, Pierre.</strong> Le Sens pratique. Paris: Minuit, 1980. (Trad. ingl. The Logic of Practice).</p>
+      <p><strong>BOURDIEU, Pierre.</strong> La Distinction: Critique sociale du jugement. Paris: Minuit, 1979. (Trad. bras. A Distinção).</p>
+      <p><strong>BOURDIEU, Pierre.</strong> La Noblesse d'État: Grandes écoles et esprit de corps. Paris: Minuit, 1989. (Trad. ingl. The State Nobility).</p>
+      <p><strong>BOURDIEU, Pierre.</strong> Les Règles de l'art: Genèse et structure du champ littéraire. Paris: Seuil, 1992. (Trad. bras. As Regras da Arte).</p>
+      <p><strong>BOURDIEU, Pierre.</strong> Sur la télévision. Paris: Raisons d'Agir, 1996.</p>
+      <p><strong>BOURDIEU, Pierre.</strong> Méditations pascaliennes. Paris: Seuil, 1997. (Trad. ingl. Pascalian Meditations, 2000).</p>
+      <p><strong>BOURDIEU, Pierre.</strong> La Domination masculine. Paris: Seuil, 1998. (Trad. bras. A Dominação Masculina).</p>
+      <p><strong>BOURDIEU, Pierre.</strong> Razões práticas: sobre a teoria da ação. Tradução de Mariza Corrêa. 6. ed. Campinas: Papirus, 2008 [1994].</p>
+      <p><strong>BOURDIEU, Pierre; PASSERON, Jean-Claude.</strong> A reprodução: elementos para uma teoria do sistema de ensino. 5. ed. Petrópolis: Vozes, 2012 [1970/1975].</p>
+      <p><strong>BOURDIEU, Pierre; WACQUANT, Loïc.</strong> An Invitation to Reflexive Sociology. Chicago: University of Chicago Press, 1992.</p>
+      <p><strong>BOURDIEU, Pierre et al.</strong> La Misère du monde. Paris: Seuil, 1993. (Trad. ingl. The Weight of the World).</p>
+      <p><strong>CAMPOS, Luiz Augusto; SZWAKO, José.</strong> Biblioteca bourdieusiana ou como as ciências sociais brasileiras vêm se apropriando de Pierre Bourdieu (1999-2018). <em>Revista Brasileira de Informação Bibliográfica em Ciências Sociais (BIB)</em>, n. 91, p. 1-25, 2020.</p>
+      <p><strong>CATANI, Afrânio Mendes; CATANI, Denice Bárbara; PEREIRA, Gilson R. de M.</strong> As apropriações da obra de Pierre Bourdieu no campo educacional brasileiro, através de periódicos da área. 2001.</p>
+      <p><strong>FLIGSTEIN, Neil; McADAM, Doug.</strong> A Theory of Fields. Oxford: Oxford University Press, 2012.</p>
+      <p><strong>GRENFELL, Michael (org.).</strong> Pierre Bourdieu: Key Concepts. 2. ed. Londres: Routledge, 2013.</p>
+      <p><strong>HEINICH, Nathalie.</strong> La sociologie de l'art. Paris: La Découverte, 2001.</p>
+      <p><strong>HEINICH, Nathalie.</strong> Pourquoi Bourdieu. Paris: La Découverte, 2007.</p>
+      <p><strong>JARDIM, Maria Chaves.</strong> Emoções e Sociologia Econômica. <em>Revista Ensaios</em>, v. 18, p. 142-164, jan./jun. 2021.</p>
+      <p><strong>MICELI, Sergio (org.; trad.).</strong> A Economia das Trocas Simbólicas. São Paulo: Perspectiva, 1974.</p>
+      <p><strong>MICELI, Sergio.</strong> A recepção de Pierre Bourdieu no Brasil: Circunstâncias e Mediadores. <em>Sociologias Plurais</em>, v. 7, n. 3, p. 14-27, 2021.</p>
+      <p><strong>NOGUEIRA, Cláudio Marques Martins; NOGUEIRA, Maria Alice.</strong> A sociologia da educação de Pierre Bourdieu: limites e contribuições. <em>Educação &amp; Sociedade</em>, ano 23, n. 78, p. 15-36, abr. 2002.</p>
+      <p><strong>ORTIZ, Renato (org.).</strong> Pierre Bourdieu: Sociologia. Tradução de Paula Montero e Alicia Auzmendi. São Paulo: Ática, 1983.</p>
+      <p><strong>ORTIZ, Renato.</strong> Nota sobre a recepção de Pierre Bourdieu no Brasil. <em>Sociologia &amp; Antropologia</em>, v. 3, n. 5, p. 81-90, 2013.</p>
+      <p><strong>ROBBINS, Derek.</strong> The Work of Pierre Bourdieu. Milton Keynes: Open University Press, 1991. [verifique: dados editoriais]</p>
+      <p><strong>ROBBINS, Derek.</strong> Bourdieu and Culture. Londres: Sage, 2000.</p>
+      <p><strong>SETTON, Maria da Graça Jacintho.</strong> A teoria do habitus em Pierre Bourdieu: uma leitura contemporânea. <em>Revista Brasileira de Educação</em>, n. 20, p. 60-70, maio/ago. 2002.</p>
+      <p><strong>SUSEN, Simon.</strong> Towards a Dialogue between Pierre Bourdieu's 'Critical Sociology' and Luc Boltanski's 'Pragmatic Sociology of Critique'. In: SUSEN, Simon; TURNER, Bryan S. (orgs.). <em>The Spirit of Luc Boltanski: Essays on the 'Pragmatic Sociology of Critique'</em>. Londres: Anthem Press, 2014.</p>
+      <p><strong>WACQUANT, Loïc.</strong> Bourdieu in the City: Challenging Urban Theory. Cambridge: Polity Press, 2023.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-left">MAPA DE PESQUISA · DOUTORADO · SOCIOLOGIA ECONÔMICA &amp; FINANÇAS · PERSPECTIVAS CONTEMPORÂNEAS SOBRE BOURDIEU</div>
+  <div class="footer-right">Bourdieu (1972-1998) · Wacquant (2023) · Boltanski/Susen (2014) · Fligstein &amp; McAdam (2012) · Miceli (2021) · Jardim (2021)</div>
+</div>
+
+</body>
+</html>
